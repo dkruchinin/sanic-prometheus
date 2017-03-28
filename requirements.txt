@@ -1,0 +1,15 @@
+aiofiles==0.3.1
+appdirs==1.4.3
+httptools==0.0.9
+packaging==16.8
+prometheus==0.3.0
+prometheus-client==0.0.19
+protobuf-py3==2.5.1
+pyparsing==2.2.0
+quantile-python==1.1
+requests==2.5.1
+sanic==0.4.1
+sanic-prometheus==0.0.1
+six==1.10.0
+ujson==1.35
+uvloop==0.8.0

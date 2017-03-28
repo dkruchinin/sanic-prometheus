@@ -1,0 +1,6 @@
+*.egg-info
+build
+dist
+__pycache__
+.python-version
+.cache
