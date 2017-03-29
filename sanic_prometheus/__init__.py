@@ -1,4 +1,3 @@
-import time
 from prometheus_client import start_http_server
 from . import metrics, endpoint
 
