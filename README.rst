@@ -1,5 +1,6 @@
 Sanic prometheus metrics
 =========================
+|Build Status| |PyPI| |PyPI version|
 
 After a little bit of googling I didn't find a library that would enabled some `prometheus <https://prometheus.io/>`_ metrics for `Sanic <https://github.com/channelcat/sanic>`_-based apps, so I had to write one. 
 
@@ -63,3 +64,10 @@ Some prometheus query examples:
 * *Physical memory usage percent over last 10 minutes*::
 
     rate(sanic_mem_rss_perc[10m])
+
+.. |Build Status| image:: https://travis-ci.org/dkruchinin/sanic-prometheus.svg?branch=master
+   :target: https://travis-ci.org/dkruchinin/sanic-prometheus
+.. |PyPI| image:: https://img.shields.io/pypi/v/sanic-prometheus.svg
+   :target: https://pypi.python.org/pypi/sanic-prometheus/
+.. |PyPI version| image:: https://img.shields.io/pypi/pyversions/sanic-prometheus.svg
+   :target: https://pypi.python.org/pypi/sanic-prometheus/
