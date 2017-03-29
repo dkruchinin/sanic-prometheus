@@ -7,7 +7,7 @@ After a little bit of googling I didn't find a library that would enabled some `
 Exposed metrics
 -----------------
 
-At the moment the ``sanic-prometheus`` provides four metrics:
+At the moment ``sanic-prometheus`` provides four metrics:
 
 * **sanic_request_count** - total number of requests (labels: *method*, *endpoint*, *status*) [`counter <https://prometheus.io/docs/concepts/metric_types/#counter>`_]
 * **sanic_request_latency_sec** - request latency in seconds (labels: *method*, *endpoint*) [`histogram <https://prometheus.io/docs/concepts/metric_types/#histogram>`_]
@@ -18,7 +18,7 @@ Labels
 -----------------
 
 * **method**: a HTTP method (i.e. GET/POST/DELETE/etc)
-* **endpoint**: just a string, a name identifying a point handling a group of requests. By default it's just the first element of the relative path in the URL being called (i.e. for http://myhost/a/b/c you'll end up having ``/a`` as your endpoint). It is quite configurable, in fact it's up you what's gonna get to the ``endpoint`` label (see ``help(sanic_prometheus.monitor)`` for more details)
+* **endpoint**: just a string, a name identifying a point handling a group of requests. By default it's just the first element of the relative path of the URL being called (i.e. for http://myhost/a/b/c you'll end up having ``/a`` as your endpoint). It is quite configurable, in fact it's up you what's gonna get to the ``endpoint`` label (see ``help(sanic_prometheus.monitor)`` for more details)
 * **status**: a HTTP status code
 
 Enabling monitoring
@@ -49,8 +49,8 @@ Best you can do is::
      In [2]: help(monitor)
 
 
-Some prometheus query examples:
-----------------------
+Prometheus quering examples:
+-----------------------------
 
 * *Average latency over last 30 minutes*::
 
