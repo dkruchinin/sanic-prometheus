@@ -5,6 +5,7 @@ packaging==16.8
 prometheus==0.3.0
 prometheus-client==0.0.19
 protobuf-py3==2.5.1
+psutil==5.2.1
 pyparsing==2.2.0
 quantile-python==1.1
 requests==2.5.1

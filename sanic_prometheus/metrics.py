@@ -1,5 +1,7 @@
+import asyncio
 import time
-from prometheus_client import Counter, Histogram, Summary
+import psutil
+from prometheus_client import Counter, Histogram, Gauge
 
 
 def init(latency_buckets=None):
@@ -20,7 +22,27 @@ def init(latency_buckets=None):
         **hist_kwargs
     )
 
+    metrics['PROC_RSS_MEM_BYTES'] = Gauge(
+        'sanic_mem_rss_bytes',
+        'Resident memory used by process running Sanic'
+    )
+    metrics['PROC_RSS_MEM_PERC'] = Gauge(
+        'sanic_mem_rss_perc',
+        'A per cent of total physical memory used by the process running Sanic'
+    )
+
     return metrics
+
+
+def make_periodic_memcollect_task(metrics, period_sec, get_loop_fn):
+    p = psutil.Process()
+
+    async def collector():
+        while True:
+            await asyncio.sleep(period_sec, loop=get_loop_fn())
+            metrics['PROC_RSS_MEM_BYTES'].set(p.memory_info().rss)
+            metrics['PROC_RSS_MEM_PERC'].set(p.memory_percent())
+    return collector
 
 
 def before_request_handler(request):

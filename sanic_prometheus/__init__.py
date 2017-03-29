@@ -5,7 +5,8 @@ from . import metrics, endpoint
 def monitor(app, port=8000, addr='',
             endpoint_type='url:1',
             get_endpoint_fn=None,
-            latency_buckets=None):
+            latency_buckets=None,
+            mmc_period_sec=30):
     """
     Regiesters a bunch of metrics for Sanic server
     (request latency, count, etc) and runs a HTTP
@@ -32,6 +33,8 @@ def monitor(app, port=8000, addr='',
                             where `r` is Sanic request object
     :param latency_buckets: an optional list of bucket sizes for latency
                             histogram (see prometheus `Histogram` metric)
+    :param mmc_period_sec: set a period (in seconds) of how frequently memory
+                           usage related metrics are collected
     """
     m = metrics.init(latency_buckets=latency_buckets)
     get_endpoint = endpoint.fn_by_type(endpoint_type, get_endpoint_fn)
@@ -45,4 +48,9 @@ def monitor(app, port=8000, addr='',
         metrics.after_request_handler(m, request, response, get_endpoint)
         return response
 
+    # can't access the loop directly before Sanic starts
+    get_loop_fn = lambda: app.loop
+    app.add_task(
+        metrics.make_periodic_memcollect_task(m, mmc_period_sec, get_loop_fn)
+    )
     start_http_server(port, addr)
