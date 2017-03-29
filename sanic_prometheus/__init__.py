@@ -8,7 +8,7 @@ def monitor(app, port=8000, addr='',
             latency_buckets=None):
     """
     Regiesters a bunch of metrics for Sanic server
-    (latency summary, latency histogram, request count, etc) and runs a HTTP
+    (request latency, count, etc) and runs a HTTP
     server for prometheus with /metrics endpoint exposed.
 
     :param app: an instance of sanic.app
