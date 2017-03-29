@@ -46,3 +46,11 @@ Best you can do is::
      % ipython
      In [1]: from sanic_prometheus import monitor
      In [2]: help(monitor)
+
+
+Some prometheus query examples:
+----------------------
+
+* *Average latency over last 30 minutes*: ``rate(sanic_request_latency_sec_sum{endpoint='/your-endpoint'}[30m])/rate(sanic_request_latency_sec_count{endpoint='/your-endpoint'}[30m])``
+* *95th percentile of request latency*: ``histogram_quantile(0.95, sum(rate(sanic_request_latency_sec_bucket[5m])) by (le))``
+* *Physical memory usage percent over last 10 minutes*: ``rate(sanic_mem_rss_perc[10m])``
