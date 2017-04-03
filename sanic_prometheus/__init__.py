@@ -1,20 +1,24 @@
-from prometheus_client import start_http_server
+from sanic.response import text
+from prometheus_client.exposition import (
+    generate_latest, core, CONTENT_TYPE_LATEST
+)
 from . import metrics, endpoint
 
 
-def monitor(app, port=8000, addr='',
+def monitor(app,
+            metrics_endpoint='/metrics',
             endpoint_type='url:1',
             get_endpoint_fn=None,
             latency_buckets=None,
             mmc_period_sec=30):
     """
     Regiesters a bunch of metrics for Sanic server
-    (request latency, count, etc) and runs a HTTP
-    server for prometheus with /metrics endpoint exposed.
+    (request latency, count, etc) and exposes an endpoint
+    for collecting these metrics.
 
     :param app: an instance of sanic.app
-    :param port: a port to run prometheus server on
-    :param addr: an address to run the server on
+    :param metrics_endpoint: an endpoint for scraping metrics
+                             (/metrics is a default one)
     :param endpoint_type: All request related metrics have a label called
                          'endpoint'. It can be fetched from Sanic `request`
                           object using different strategies specified by
@@ -53,4 +57,8 @@ def monitor(app, port=8000, addr='',
     app.add_task(
         metrics.make_periodic_memcollect_task(m, mmc_period_sec, get_loop_fn)
     )
-    start_http_server(port, addr)
+
+    @app.route(metrics_endpoint, methods=['GET'])
+    async def expose_metrics(request):
+        return text(generate_latest(core.REGISTRY),
+                    content_type=CONTENT_TYPE_LATEST)

@@ -2,8 +2,8 @@ from setuptools import setup
 
 setup(
     name='sanic-prometheus',
-    version='0.0.1',
-    description='Exposes various request and memory metrics of Sanic-based apps to Prometheus',
+    version='0.0.2',
+    description='Exposes various prometheus metrics for Sanic-based apps."
     url='http://github.com/dkruchinin/sanic-prometheus',
     author='Dan Kruchinin',
     author_email='dkruchinin@acm.org',
