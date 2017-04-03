@@ -1,24 +1,49 @@
-from sanic.response import text
+from sanic.response import raw
+from prometheus_client import start_http_server
 from prometheus_client.exposition import (
     generate_latest, core, CONTENT_TYPE_LATEST
 )
 from . import metrics, endpoint
 
 
-def monitor(app,
-            metrics_endpoint='/metrics',
-            endpoint_type='url:1',
+class MonitorSetup:
+    def __init__(self, app):
+        self._app = app
+
+    def expose_endpoint(self):
+        """
+        Expose /metrics endpoint on the same Sanic server.
+
+        This may be useful if Sanic is launched from a container
+        and you do not want to expose more than one port for some
+        reason.
+        """
+        @self._app.route('/metrics', methods=['GET'])
+        async def expose_metrics(request):
+            return raw(generate_latest(core.REGISTRY),
+                       content_type=CONTENT_TYPE_LATEST)
+
+    def start_server(self, addr='', port=8000):
+        """
+        Expose /metrics endpoint on a new server that will
+        be launched on `<addr>:<port>`.
+
+        This may be useful if you want to restrict access to
+        metrics data with firewall rules.
+        """
+        start_http_server(addr=addr, port=port, )
+
+
+def monitor(app, endpoint_type='url:1',
             get_endpoint_fn=None,
             latency_buckets=None,
             mmc_period_sec=30):
     """
     Regiesters a bunch of metrics for Sanic server
-    (request latency, count, etc) and exposes an endpoint
-    for collecting these metrics.
+    (request latency, count, etc) and exposes /metrics endpoint
+    to allow Prometheus to scrape them out.
 
     :param app: an instance of sanic.app
-    :param metrics_endpoint: an endpoint for scraping metrics
-                             (/metrics is a default one)
     :param endpoint_type: All request related metrics have a label called
                          'endpoint'. It can be fetched from Sanic `request`
                           object using different strategies specified by
@@ -45,11 +70,13 @@ def monitor(app,
 
     @app.middleware('request')
     async def before_request(request):
-        metrics.before_request_handler(request)
+        if request.url != '/metrics':
+            metrics.before_request_handler(request)
 
     @app.middleware('response')
     async def before_response(request, response):
-        metrics.after_request_handler(m, request, response, get_endpoint)
+        if request.url != '/metrics':
+            metrics.after_request_handler(m, request, response, get_endpoint)
         return response
 
     # can't access the loop directly before Sanic starts
@@ -58,7 +85,7 @@ def monitor(app,
         metrics.make_periodic_memcollect_task(m, mmc_period_sec, get_loop_fn)
     )
 
-    @app.route(metrics_endpoint, methods=['GET'])
-    async def expose_metrics(request):
-        return text(generate_latest(core.REGISTRY),
-                    content_type=CONTENT_TYPE_LATEST)
+    return MonitorSetup(app)
+
+
+__all__ = ['monitor']
