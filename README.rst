@@ -1,7 +1,7 @@
 Sanic prometheus metrics
 =========================
 
-After a little bit of googling I didn't find a library that would enabled some `prometheus <https://prometheus.io/>`_ metrics for `Sanic <https://github.com/channelcat/sanic>`_-based apps, so I had to write one. 
+After googling for a while I didn't find a library that would enable some `prometheus <https://prometheus.io/>`_ metrics for `Sanic <https://github.com/channelcat/sanic>`_-based apps, so I had to write one. It makes adding monitoring to your Sanic app super easy, just add one line to your code (ok, two if you count import :) and point Prometheus to a newly appeared `/metrics` endpoint.
 
 Exposed metrics
 -----------------
@@ -34,9 +34,21 @@ Easy-peasy:
   ...
 
   if __name__ == "__main__":
-    monitor(app)
+    monitor(app).expose_endpoint() # adds /metrics endpoint to your Sanic server
     app.run(host="0.0.0.0", port=8000)
 
+
+Actually, there're two ways to run monitoring:
+
+
+1. The one you've seen above, ``monitor(app).expose_endpoint()``. 
+   It just adds adds a new ``route`` to your Sanic app, exposing ``/metrics`` endpoint
+   on the same host and port your Sanic server runs. It might be useful if you run your
+   app in a container and you do not want to expose different ports for metrics and everything else.
+2. ``monitor(app).start_server(addr=..., port=...)``.
+    Runs a HTTP server on given address and port and exposes ``/metrics`` endpoint on it.
+    This might be useful if you want to restrict access to your ``/metrics`` endpoint using some
+    firewall rules
 
 Configuration
 -----------------
