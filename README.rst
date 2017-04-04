@@ -43,7 +43,7 @@ Actually, there're two ways to run monitoring:
 
 
 1. The one you've seen above, ``monitor(app).expose_endpoint()``. 
-   It just adds adds a new ``route`` to your Sanic app, exposing ``/metrics`` endpoint
+   It just adds a new ``route`` to your Sanic app, exposing ``/metrics`` endpoint
    on the same host and port your Sanic server runs. It might be useful if you run your
    app in a container and you do not want to expose different ports for metrics and everything else.
 2. ``monitor(app).start_server(addr=..., port=...)``.
