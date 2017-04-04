@@ -19,7 +19,7 @@ Labels
 
 * **method**: a HTTP method (i.e. GET/POST/DELETE/etc)
 * **endpoint**: just a string, a name identifying a point handling a group of requests. By default it's just the first element of the relative path of the URL being called (i.e. for http://myhost/a/b/c you'll end up having ``/a`` as your endpoint). It is quite configurable, in fact it's up you what's gonna get to the ``endpoint`` label (see ``help(sanic_prometheus.monitor)`` for more details)
-* **status**: a HTTP status code
+* **http_status**: a HTTP status code
 
 Enabling monitoring
 -----------------
