@@ -4,6 +4,12 @@ Sanic prometheus metrics
 
 After googling for a while I didn't find a library that would enable some `prometheus <https://prometheus.io/>`_ metrics for `Sanic <https://github.com/channelcat/sanic>`_-based apps, so I had to write one. It makes adding monitoring to your Sanic app super easy, just add one line to your code (ok, two if you count import :) and point Prometheus to a newly appeared `/metrics` endpoint.
 
+Versions compatibility
+----------------------
+
+* ☑︎ use **0.1.0** for Sanic <= 0.4.1
+* ☑︎ use **0.1.1** for Sanic >= 0.5.0 
+
 Exposed metrics
 -----------------
 
