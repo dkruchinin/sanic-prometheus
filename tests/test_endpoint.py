@@ -5,7 +5,7 @@ from sanic_prometheus.endpoint import fn_by_type, get_from_url
 
 def mk_request(url):
     req = MagicMock()
-    req.url = url
+    req.path = url
     return req
 
 

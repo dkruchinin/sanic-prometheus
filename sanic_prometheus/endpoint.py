@@ -1,7 +1,7 @@
 def get_from_url(request, lim=0):
     if lim <= 0:
-        return request.url
-    url = request.url
+        return request.path
+    url = request.path
     if url[0] == '/':
         lim += 1
     return '/'.join(url.split('/')[:lim])
