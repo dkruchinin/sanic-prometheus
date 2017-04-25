@@ -8,7 +8,7 @@ Versions compatibility
 ----------------------
 
 * ☑︎ use **0.1.0** for Sanic <= 0.4.1
-* ☑︎ use **0.1.1** for Sanic >= 0.5.0 
+* ☑︎ use **0.1.2** for Sanic >= 0.5.0 
 
 Exposed metrics
 -----------------
