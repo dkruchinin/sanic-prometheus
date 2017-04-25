@@ -70,12 +70,12 @@ def monitor(app, endpoint_type='url:1',
 
     @app.middleware('request')
     async def before_request(request):
-        if request.url != '/metrics':
+        if request.path != '/metrics':
             metrics.before_request_handler(request)
 
     @app.middleware('response')
     async def before_response(request, response):
-        if request.url != '/metrics':
+        if request.path != '/metrics':
             metrics.after_request_handler(m, request, response, get_endpoint)
         return response
 
