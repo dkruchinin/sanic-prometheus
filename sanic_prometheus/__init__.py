@@ -77,7 +77,6 @@ def monitor(app, endpoint_type='url:1',
     async def before_response(request, response):
         if request.path != '/metrics':
             metrics.after_request_handler(m, request, response, get_endpoint)
-        return response
 
     # can't access the loop directly before Sanic starts
     get_loop_fn = lambda: app.loop
