@@ -1,0 +1,2 @@
+class SanicPrometheusError(RuntimeError):
+    pass

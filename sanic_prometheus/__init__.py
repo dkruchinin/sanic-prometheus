@@ -1,14 +1,22 @@
+import os
 from sanic.response import raw
-from prometheus_client import start_http_server
+from prometheus_client import (
+    start_http_server,
+    multiprocess,
+    CollectorRegistry
+)
 from prometheus_client.exposition import (
     generate_latest, core, CONTENT_TYPE_LATEST
 )
+
 from . import metrics, endpoint
+from .exceptions import SanicPrometheusError
 
 
 class MonitorSetup:
-    def __init__(self, app):
+    def __init__(self, app, multiprocess_on=False):
         self._app = app
+        self._multiprocess_on = multiprocess_on
 
     def expose_endpoint(self):
         """
@@ -20,7 +28,7 @@ class MonitorSetup:
         """
         @self._app.route('/metrics', methods=['GET'])
         async def expose_metrics(request):
-            return raw(generate_latest(core.REGISTRY),
+            return raw(self._get_metrics_data(),
                        content_type=CONTENT_TYPE_LATEST)
 
     def start_server(self, addr='', port=8000):
@@ -30,14 +38,27 @@ class MonitorSetup:
 
         This may be useful if you want to restrict access to
         metrics data with firewall rules.
+        NOTE: can not be used in multiprocessing mode
         """
-        start_http_server(addr=addr, port=port, )
+        if self._multiprocess_on:
+            raise SanicPrometheusError(
+                "start_server can not be used when multiprocessing " +
+                "is turned on")
+        start_http_server(addr=addr, port=port)
+
+    def _get_metrics_data(self):
+        registry = core.REGISTRY
+        if self._multiprocess_on:
+            registry = CollectorRegistry()
+            multiprocess.MultiProcessCollector(registry)
+        return generate_latest(registry)
 
 
 def monitor(app, endpoint_type='url:1',
             get_endpoint_fn=None,
             latency_buckets=None,
-            mmc_period_sec=30):
+            mmc_period_sec=30,
+            multiprocess_mode='all'):
     """
     Regiesters a bunch of metrics for Sanic server
     (request latency, count, etc) and exposes /metrics endpoint
@@ -64,9 +85,12 @@ def monitor(app, endpoint_type='url:1',
                             histogram (see prometheus `Histogram` metric)
     :param mmc_period_sec: set a period (in seconds) of how frequently memory
                            usage related metrics are collected
+
+    NOTE: memory usage is not collected when when multiprocessing is enabled
     """
-    m = metrics.init(latency_buckets=latency_buckets)
+    m = metrics.init(latency_buckets, multiprocess_mode)
     get_endpoint = endpoint.fn_by_type(endpoint_type, get_endpoint_fn)
+    multiprocess_on = 'prometheus_multiproc_dir' in os.environ
 
     @app.middleware('request')
     async def before_request(request):
@@ -78,13 +102,19 @@ def monitor(app, endpoint_type='url:1',
         if request.path != '/metrics':
             metrics.after_request_handler(m, request, response, get_endpoint)
 
-    # can't access the loop directly before Sanic starts
-    get_loop_fn = lambda: app.loop
-    app.add_task(
-        metrics.make_periodic_memcollect_task(m, mmc_period_sec, get_loop_fn)
-    )
+    if multiprocess_on:
+        @app.listener('after_server_stop')
+        def after_stop(app, loop):
+            multiprocess.mark_process_dead(os.getpid())
+    else:
+        # can't access the loop directly before Sanic starts
+        get_loop_fn = lambda: app.loop
+        app.add_task(
+            metrics.make_periodic_memcollect_task(m, mmc_period_sec,
+                                                  get_loop_fn)
+        )
 
-    return MonitorSetup(app)
+    return MonitorSetup(app, multiprocess_on)
 
 
 __all__ = ['monitor']

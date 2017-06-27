@@ -4,7 +4,7 @@ import psutil
 from prometheus_client import Counter, Histogram, Gauge
 
 
-def init(latency_buckets=None):
+def init(latency_buckets=None, multiprocess_mode='all'):
     metrics = {}
     metrics['RQS_COUNT'] = Counter(
         'sanic_request_count',
@@ -24,11 +24,14 @@ def init(latency_buckets=None):
 
     metrics['PROC_RSS_MEM_BYTES'] = Gauge(
         'sanic_mem_rss_bytes',
-        'Resident memory used by process running Sanic'
+        'Resident memory used by process running Sanic',
+        multiprocess_mode=multiprocess_mode
     )
     metrics['PROC_RSS_MEM_PERC'] = Gauge(
         'sanic_mem_rss_perc',
-        'A per cent of total physical memory used by the process running Sanic'
+        'A per cent of total physical memory used by ' +
+        'the process running Sanic',
+        multiprocess_mode=multiprocess_mode
     )
 
     return metrics
