@@ -47,11 +47,14 @@ class MonitorSetup:
         start_http_server(addr=addr, port=port)
 
     def _get_metrics_data(self):
-        registry = core.REGISTRY
-        if self._multiprocess_on:
+        registry = None
+        if not self._multiprocess_on:
+            registry = core.REGISTRY
+        else:
             registry = CollectorRegistry()
             multiprocess.MultiProcessCollector(registry)
-        return generate_latest(registry)
+        data = generate_latest(registry)
+        return data
 
 
 def monitor(app, endpoint_type='url:1',
@@ -88,9 +91,12 @@ def monitor(app, endpoint_type='url:1',
 
     NOTE: memory usage is not collected when when multiprocessing is enabled
     """
-    m = metrics.init(latency_buckets, multiprocess_mode)
-    get_endpoint = endpoint.fn_by_type(endpoint_type, get_endpoint_fn)
     multiprocess_on = 'prometheus_multiproc_dir' in os.environ
+    get_endpoint = endpoint.fn_by_type(endpoint_type, get_endpoint_fn)
+
+    @app.listener('before_server_start')
+    def before_start(app, loop):
+        metrics.init(latency_buckets, multiprocess_mode)
 
     @app.middleware('request')
     async def before_request(request):
@@ -100,7 +106,7 @@ def monitor(app, endpoint_type='url:1',
     @app.middleware('response')
     async def before_response(request, response):
         if request.path != '/metrics':
-            metrics.after_request_handler(m, request, response, get_endpoint)
+            metrics.after_request_handler(request, response, get_endpoint)
 
     if multiprocess_on:
         @app.listener('after_server_stop')
@@ -110,7 +116,7 @@ def monitor(app, endpoint_type='url:1',
         # can't access the loop directly before Sanic starts
         get_loop_fn = lambda: app.loop
         app.add_task(
-            metrics.make_periodic_memcollect_task(m, mmc_period_sec,
+            metrics.make_periodic_memcollect_task(mmc_period_sec,
                                                   get_loop_fn)
         )
 

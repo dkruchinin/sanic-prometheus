@@ -3,6 +3,11 @@ import time
 import psutil
 from prometheus_client import Counter, Histogram, Gauge
 
+# I hate global variables but I didn't find a better way
+# to make things compatible with how prometheus_client works
+# in multiprocessing mode
+METRICS = None
+
 
 def init(latency_buckets=None, multiprocess_mode='all'):
     metrics = {}
@@ -34,17 +39,18 @@ def init(latency_buckets=None, multiprocess_mode='all'):
         multiprocess_mode=multiprocess_mode
     )
 
-    return metrics
+    global METRICS
+    METRICS = metrics
 
 
-def make_periodic_memcollect_task(metrics, period_sec, get_loop_fn):
+def make_periodic_memcollect_task(period_sec, get_loop_fn):
     p = psutil.Process()
 
     async def collector():
         while True:
             await asyncio.sleep(period_sec, loop=get_loop_fn())
-            metrics['PROC_RSS_MEM_BYTES'].set(p.memory_info().rss)
-            metrics['PROC_RSS_MEM_PERC'].set(p.memory_percent())
+            METRICS['PROC_RSS_MEM_BYTES'].set(p.memory_info().rss)
+            METRICS['PROC_RSS_MEM_PERC'].set(p.memory_percent())
     return collector
 
 
@@ -52,9 +58,9 @@ def before_request_handler(request):
     request['__START_TIME__'] = time.time()
 
 
-def after_request_handler(metrics, request, response, get_endpoint_fn):
+def after_request_handler(request, response, get_endpoint_fn):
     lat = time.time() - request['__START_TIME__']
     endpoint = get_endpoint_fn(request)
-    metrics['RQS_LATENCY'].labels(request.method, endpoint).observe(lat)
-    metrics['RQS_COUNT'].labels(request.method, endpoint,
+    METRICS['RQS_LATENCY'].labels(request.method, endpoint).observe(lat)
+    METRICS['RQS_COUNT'].labels(request.method, endpoint,
                                 response.status).inc()
