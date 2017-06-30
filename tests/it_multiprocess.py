@@ -1,4 +1,5 @@
 import os
+import re
 import unittest
 from tempfile import mkdtemp
 from shutil import rmtree
@@ -50,5 +51,12 @@ class TestMultiprocessing(unittest.TestCase):
             _ = r.read()
 
         r = request.urlopen("http://localhost:{}/metrics".format(TEST_PORT))
-        print(r.read())
-        print("boom! Terminating")
+        nreqs = None
+        for l in r.readlines():
+            l = l.decode('ascii')
+            m = re.match(r"^sanic_request_count\{.+\}\s+(\d+)\s*", l)
+            if m:
+                nreqs = int(m.group(1))
+                break
+        self.assertIsNotNone(nreqs)
+        self.assertEqual(nreqs, 100)

@@ -9,8 +9,11 @@ install: clean
 lint:
 	flake8 --ignore=E731 sanic_prometheus
 
-test: lint
+test: lint integration-test
 	python -m unittest discover tests
+
+integration-test:
+	./tests/run_multiproc_it.sh
 
 clean:
 	rm -rf dist *.egg.info build
