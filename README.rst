@@ -57,6 +57,21 @@ Actually, there're two ways to run monitoring:
    This might be useful if you want to restrict access to your ``/metrics`` endpoint using some
    firewall rules
 
+
+Multiprocess mode
+-----------------
+
+Sanic allows to launch multiple worker processes to utilise parallelisation, which is great but makes metrics collection much trickier (`read more <https://github.com/prometheus/client_python/blob/master/README.md#multiprocess-mode-gunicorn>`_) and introduces some limitations. 
+
+In order to collect metrics from multiple workers, create a directory and point a ``prometheus_multiproc_dir`` environment variable to it. Make sure the directory is empty before you launch your service::
+
+
+     % rm -rf /path/to/your/directory/*
+     % env prometheus_multiproc_dir=/path/to/your/directory python your_sanic_app.py
+
+
+Unfortunately you can not use ``monitor(app).start_server(addr=..., port=...)`` in multiprocess mode as it exposes a prometheus endpoint from a newly created process.
+
 Configuration
 -----------------
 
