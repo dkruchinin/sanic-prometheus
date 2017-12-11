@@ -89,7 +89,8 @@ def monitor(app, endpoint_type='url:1',
                             histogram (see prometheus `Histogram` metric)
     :param mmc_period_sec: set a period (in seconds) of how frequently memory
                            usage related metrics are collected
-    :param memcollect_enabled: a simple flag this enable memcollect task and metrics
+    :param memcollect_enabled: a simple flag this enable memcollect task and
+                               metrics
 
     NOTE: memory usage is not collected when when multiprocessing is enabled
     """
@@ -98,7 +99,10 @@ def monitor(app, endpoint_type='url:1',
 
     @app.listener('before_server_start')
     def before_start(app, loop):
-        metrics.init(latency_buckets, multiprocess_mode, memcollect_enabled=memcollect_enabled)
+        metrics.init(
+            latency_buckets, multiprocess_mode,
+            memcollect_enabled=memcollect_enabled
+        )
 
     @app.middleware('request')
     async def before_request(request):
