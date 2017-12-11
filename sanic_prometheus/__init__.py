@@ -113,12 +113,13 @@ def monitor(app, endpoint_type='url:1',
         def after_stop(app, loop):
             multiprocess.mark_process_dead(os.getpid())
     else:
-        # can't access the loop directly before Sanic starts
-        get_loop_fn = lambda: app.loop
-        app.add_task(
-            metrics.make_periodic_memcollect_task(mmc_period_sec,
-                                                  get_loop_fn)
-        )
+        @app.listener('before_server_start')
+        async def start_memcollect_task(app, loop):
+            app.memcollect_task = loop.create_task(metrics.periodic_memcollect_task(mmc_period_sec, loop))
+
+        @app.listener('after_server_stop')
+        async def stop_memcollect_task(app, loop):
+            app.memcollect_task.cancel()
 
     return MonitorSetup(app, multiprocess_on)
 

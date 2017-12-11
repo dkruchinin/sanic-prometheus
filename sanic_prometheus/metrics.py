@@ -43,15 +43,12 @@ def init(latency_buckets=None, multiprocess_mode='all'):
     METRICS = metrics
 
 
-def make_periodic_memcollect_task(period_sec, get_loop_fn):
+async def periodic_memcollect_task(period_sec, loop):
     p = psutil.Process()
-
-    async def collector():
-        while True:
-            await asyncio.sleep(period_sec, loop=get_loop_fn())
-            METRICS['PROC_RSS_MEM_BYTES'].set(p.memory_info().rss)
-            METRICS['PROC_RSS_MEM_PERC'].set(p.memory_percent())
-    return collector
+    while True:
+        await asyncio.sleep(period_sec, loop=loop)
+        METRICS['PROC_RSS_MEM_BYTES'].set(p.memory_info().rss)
+        METRICS['PROC_RSS_MEM_PERC'].set(p.memory_percent())
 
 
 def before_request_handler(request):
