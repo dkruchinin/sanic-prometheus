@@ -61,7 +61,8 @@ def monitor(app, endpoint_type='url:1',
             get_endpoint_fn=None,
             latency_buckets=None,
             mmc_period_sec=30,
-            multiprocess_mode='all'):
+            multiprocess_mode='all',
+            memcollect_enabled=True):
     """
     Regiesters a bunch of metrics for Sanic server
     (request latency, count, etc) and exposes /metrics endpoint
@@ -88,6 +89,7 @@ def monitor(app, endpoint_type='url:1',
                             histogram (see prometheus `Histogram` metric)
     :param mmc_period_sec: set a period (in seconds) of how frequently memory
                            usage related metrics are collected
+    :param memcollect_enabled: a simple flag this enable memcollect task and metrics
 
     NOTE: memory usage is not collected when when multiprocessing is enabled
     """
@@ -96,7 +98,7 @@ def monitor(app, endpoint_type='url:1',
 
     @app.listener('before_server_start')
     def before_start(app, loop):
-        metrics.init(latency_buckets, multiprocess_mode)
+        metrics.init(latency_buckets, multiprocess_mode, memcollect_enabled=memcollect_enabled)
 
     @app.middleware('request')
     async def before_request(request):
@@ -112,7 +114,7 @@ def monitor(app, endpoint_type='url:1',
         @app.listener('after_server_stop')
         def after_stop(app, loop):
             multiprocess.mark_process_dead(os.getpid())
-    else:
+    elif memcollect_enabled:
         @app.listener('before_server_start')
         async def start_memcollect_task(app, loop):
             app.memcollect_task = loop.create_task(metrics.periodic_memcollect_task(mmc_period_sec, loop))
