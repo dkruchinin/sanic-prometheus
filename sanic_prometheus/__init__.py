@@ -117,7 +117,12 @@ def monitor(app, endpoint_type='url:1',
     elif memcollect_enabled:
         @app.listener('before_server_start')
         async def start_memcollect_task(app, loop):
-            app.memcollect_task = loop.create_task(metrics.periodic_memcollect_task(mmc_period_sec, loop))
+            app.memcollect_task = loop.create_task(
+                metrics.periodic_memcollect_task(
+                    mmc_period_sec,
+                    loop
+                )
+            )
 
         @app.listener('after_server_stop')
         async def stop_memcollect_task(app, loop):
