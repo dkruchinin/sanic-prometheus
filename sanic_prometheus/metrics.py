@@ -9,7 +9,9 @@ from prometheus_client import Counter, Histogram, Gauge
 METRICS = None
 
 
-def init(latency_buckets=None, multiprocess_mode='all'):
+def init(
+        latency_buckets=None, multiprocess_mode='all',
+        memcollect_enabled=True):
     metrics = {}
     metrics['RQS_COUNT'] = Counter(
         'sanic_request_count',
@@ -27,31 +29,29 @@ def init(latency_buckets=None, multiprocess_mode='all'):
         **hist_kwargs
     )
 
-    metrics['PROC_RSS_MEM_BYTES'] = Gauge(
-        'sanic_mem_rss_bytes',
-        'Resident memory used by process running Sanic',
-        multiprocess_mode=multiprocess_mode
-    )
-    metrics['PROC_RSS_MEM_PERC'] = Gauge(
-        'sanic_mem_rss_perc',
-        'A per cent of total physical memory used by ' +
-        'the process running Sanic',
-        multiprocess_mode=multiprocess_mode
-    )
+    if memcollect_enabled:
+        metrics['PROC_RSS_MEM_BYTES'] = Gauge(
+            'sanic_mem_rss_bytes',
+            'Resident memory used by process running Sanic',
+            multiprocess_mode=multiprocess_mode
+        )
+        metrics['PROC_RSS_MEM_PERC'] = Gauge(
+            'sanic_mem_rss_perc',
+            'A per cent of total physical memory used by ' +
+            'the process running Sanic',
+            multiprocess_mode=multiprocess_mode
+        )
 
     global METRICS
     METRICS = metrics
 
 
-def make_periodic_memcollect_task(period_sec, get_loop_fn):
+async def periodic_memcollect_task(period_sec, loop):
     p = psutil.Process()
-
-    async def collector():
-        while True:
-            await asyncio.sleep(period_sec, loop=get_loop_fn())
-            METRICS['PROC_RSS_MEM_BYTES'].set(p.memory_info().rss)
-            METRICS['PROC_RSS_MEM_PERC'].set(p.memory_percent())
-    return collector
+    while True:
+        await asyncio.sleep(period_sec, loop=loop)
+        METRICS['PROC_RSS_MEM_BYTES'].set(p.memory_info().rss)
+        METRICS['PROC_RSS_MEM_PERC'].set(p.memory_percent())
 
 
 def before_request_handler(request):

@@ -87,16 +87,22 @@ def monitor(app, endpoint_type='url:1',
     :param latency_buckets: an optional list of bucket sizes for latency
                             histogram (see prometheus `Histogram` metric)
     :param mmc_period_sec: set a period (in seconds) of how frequently memory
-                           usage related metrics are collected
+                            usage related metrics are collected.
+                            Setting it to None will disable memory metrics
+                            collection.
 
     NOTE: memory usage is not collected when when multiprocessing is enabled
     """
     multiprocess_on = 'prometheus_multiproc_dir' in os.environ
     get_endpoint = endpoint.fn_by_type(endpoint_type, get_endpoint_fn)
+    memcollect_enabled = mmc_period_sec is not None
 
     @app.listener('before_server_start')
     def before_start(app, loop):
-        metrics.init(latency_buckets, multiprocess_mode)
+        metrics.init(
+            latency_buckets, multiprocess_mode,
+            memcollect_enabled=memcollect_enabled
+        )
 
     @app.middleware('request')
     async def before_request(request):
@@ -112,13 +118,19 @@ def monitor(app, endpoint_type='url:1',
         @app.listener('after_server_stop')
         def after_stop(app, loop):
             multiprocess.mark_process_dead(os.getpid())
-    else:
-        # can't access the loop directly before Sanic starts
-        get_loop_fn = lambda: app.loop
-        app.add_task(
-            metrics.make_periodic_memcollect_task(mmc_period_sec,
-                                                  get_loop_fn)
-        )
+    elif memcollect_enabled:
+        @app.listener('before_server_start')
+        async def start_memcollect_task(app, loop):
+            app.memcollect_task = loop.create_task(
+                metrics.periodic_memcollect_task(
+                    mmc_period_sec,
+                    loop
+                )
+            )
+
+        @app.listener('after_server_stop')
+        async def stop_memcollect_task(app, loop):
+            app.memcollect_task.cancel()
 
     return MonitorSetup(app, multiprocess_on)
 
