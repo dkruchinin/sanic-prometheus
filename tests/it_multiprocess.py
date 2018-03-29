@@ -54,7 +54,7 @@ class TestMultiprocessing(unittest.TestCase):
         nreqs = None
         for l in r.readlines():
             l = l.decode('ascii')
-            m = re.match(r"^sanic_request_count\{.+\}\s+(\d+)\s*", l)
+            m = re.match(r"^service_request_count\{.+\}\s+(\d+)\s*", l)
             if m:
                 nreqs = int(m.group(1))
                 break
