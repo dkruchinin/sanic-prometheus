@@ -23,7 +23,7 @@ def init(
     if latency_buckets is not None:
         hist_kwargs = {'buckets': latency_buckets}
     metrics['RQS_LATENCY'] = Histogram(
-        'service_request_latency_sec',
+        'service_latency_seconds',
         'Service Request Latency Histogram',
         ['method', 'endpoint'],
         **hist_kwargs
