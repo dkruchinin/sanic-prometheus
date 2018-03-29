@@ -14,8 +14,8 @@ def init(
         memcollect_enabled=True):
     metrics = {}
     metrics['RQS_COUNT'] = Counter(
-        'sanic_request_count',
-        'Sanic Request Count',
+        'service_request_count',
+        'Service Request Count',
         ['method', 'endpoint', 'http_status']
     )
 
@@ -23,20 +23,20 @@ def init(
     if latency_buckets is not None:
         hist_kwargs = {'buckets': latency_buckets}
     metrics['RQS_LATENCY'] = Histogram(
-        'sanic_request_latency_sec',
-        'Sanic Request Latency Histogram',
+        'service_request_latency_sec',
+        'Service Request Latency Histogram',
         ['method', 'endpoint'],
         **hist_kwargs
     )
 
     if memcollect_enabled:
         metrics['PROC_RSS_MEM_BYTES'] = Gauge(
-            'sanic_mem_rss_bytes',
+            'service_mem_rss_bytes',
             'Resident memory used by process running Sanic',
             multiprocess_mode=multiprocess_mode
         )
         metrics['PROC_RSS_MEM_PERC'] = Gauge(
-            'sanic_mem_rss_perc',
+            'service_mem_rss_perc',
             'A per cent of total physical memory used by ' +
             'the process running Sanic',
             multiprocess_mode=multiprocess_mode

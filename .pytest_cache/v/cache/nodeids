@@ -1,0 +1,9 @@
+[
+  "tests/test_endpoint.py::TestUrlEndpoint::test_get_endpoint_fn_argument_is_ignored",
+  "tests/test_endpoint.py::TestUrlEndpoint::test_just_url",
+  "tests/test_endpoint.py::TestUrlEndpoint::test_url_bad_limit",
+  "tests/test_endpoint.py::TestUrlEndpoint::test_url_with_limit",
+  "tests/test_endpoint.py::TestGetFromUrl::test_lim_works_as_expected",
+  "tests/test_endpoint.py::TestGetFromUrl::test_no_limit_set_by_default",
+  "tests/test_endpoint.py::TestGetFromUrl::test_zero_or_negative_limit_eq_default_behaviour"
+]
