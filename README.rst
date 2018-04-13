@@ -18,8 +18,8 @@ At the moment ``sanic-prometheus`` provides four metrics:
 
 * **sanic_request_count** - total number of requests (labels: *method*, *endpoint*, *status*) [`counter <https://prometheus.io/docs/concepts/metric_types/#counter>`_]
 * **sanic_request_latency_sec** - request latency in seconds (labels: *method*, *endpoint*) [`histogram <https://prometheus.io/docs/concepts/metric_types/#histogram>`_]
-* **sanic_mem_rss_bytes** - resident memory used by the process (in bytes) [`gague <https://prometheus.io/docs/concepts/metric_types/#gauge>`_]
-* **sanic_mem_rss_perc** - a percent of total physical memory used by the process running Sanic [`gague <https://prometheus.io/docs/concepts/metric_types/#gauge>`_]
+* **sanic_mem_rss_bytes** - resident memory used by the process (in bytes) [`gauge <https://prometheus.io/docs/concepts/metric_types/#gauge>`_]
+* **sanic_mem_rss_perc** - a percent of total physical memory used by the process running Sanic [`gauge <https://prometheus.io/docs/concepts/metric_types/#gauge>`_]
   
 Labels
 -----------------
