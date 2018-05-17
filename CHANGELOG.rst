@@ -3,8 +3,8 @@ Changelog
 
 Version 0.1.5 (on May 17, 2018)
 -------------------------------
-Add websocket support (@SirEdwin)
-Add http_status label to request latency metric (@mmniaziqb)
+* Add websocket support (@SirEdwin)
+* Add http_status label to request latency metric (@mmniaziqb)
 
 Version 0.1.4 (on Aug 1, 2017)
 ------------------------------
