@@ -13,7 +13,7 @@ setup(
     platforms='any',
     install_requires=[
         'sanic>=0.5.0',
-        'prometheus-client>=0.0.19',
+        'prometheus-client~=0.4.2',
         'psutil>=5.2.0'
     ],
     classifiers=[
