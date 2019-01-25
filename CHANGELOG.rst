@@ -1,11 +1,15 @@
 Changelog
 =========
 
-Version 0.1.5 (on Jan 25, 2019)
+Version 0.1.7 (on Jan 25, 2019)
+-------------------------------
+* Make it work with newer versions of prometheus-client (>= 0.5.0)
+  (not backwards compatible with earlier versions of the library)
+
+Version 0.1.6 (on Jan 25, 2019)
 -------------------------------
 * Python 3.7 support (@wallies)
 * Restrict prometheus-client version that's safe to work with (@aviv-ebates)
-
 
 Version 0.1.5 (on May 17, 2018)
 -------------------------------
