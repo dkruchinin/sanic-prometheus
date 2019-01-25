@@ -2,11 +2,11 @@ from setuptools import setup
 
 setup(
     name='sanic-prometheus',
-    version='0.1.5',
+    version='0.1.6',
     description='Exposes various prometheus monitoring metrics of Sanic-based apps.',
     url='http://github.com/dkruchinin/sanic-prometheus',
     author='Dan Kruchinin',
-    author_email='dkruchinin@acm.org',
+    author_email='dan.kruchinin@gmail.com',
     license='MIT',
     packages=['sanic_prometheus'],
     zip_safe=False,
