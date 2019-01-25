@@ -16,5 +16,5 @@ integration-test:
 	./tests/run_multiproc_it.sh
 
 clean:
-	rm -rf dist *.egg.info build
+	rm -rf dist *.egg.info *.egg-info build
 

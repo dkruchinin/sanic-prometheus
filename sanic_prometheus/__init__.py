@@ -5,9 +5,8 @@ from prometheus_client import (
     multiprocess,
     CollectorRegistry
 )
-from prometheus_client.exposition import (
-    generate_latest, core, CONTENT_TYPE_LATEST
-)
+from prometheus_client import CONTENT_TYPE_LATEST, core
+from prometheus_client.exposition import generate_latest
 
 from . import metrics, endpoint
 from .exceptions import SanicPrometheusError

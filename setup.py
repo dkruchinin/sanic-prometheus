@@ -13,7 +13,7 @@ setup(
     platforms='any',
     install_requires=[
         'sanic>=0.5.0',
-        'prometheus-client~=0.4.2',
+        'prometheus-client~=0.5.0',
         'psutil>=5.2.0'
     ],
     classifiers=[
@@ -29,6 +29,7 @@ setup(
 
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7'
     ],
     keywords='sanic prometheus monitoring'
 )

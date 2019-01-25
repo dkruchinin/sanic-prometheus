@@ -4,7 +4,7 @@ flake8==3.3.0
 httptools==0.0.11
 mccabe==0.6.1
 packaging==16.8
-prometheus_client==0.1.1
+prometheus_client==0.5.0
 protobuf-py3==2.5.1
 psutil==5.4.8
 pycodestyle==2.3.1
