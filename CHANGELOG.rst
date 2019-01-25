@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 0.1.5 (on Jan 25, 2019)
+-------------------------------
+* Python 3.7 support (@wallies)
+* Restrict prometheus-client version that's safe to work with (@aviv-ebates)
+
+
 Version 0.1.5 (on May 17, 2018)
 -------------------------------
 * Add websocket support (@SirEdwin)
