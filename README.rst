@@ -10,6 +10,8 @@ Versions compatibility
 * ☑︎ use **0.1.0** for Sanic <= 0.4.1
 * ☑︎ use **0.1.3** for Sanic >= 0.5.0
 * ☑︎ use >= **0.1.4** if you need multiprocessing support
+* ☑︎ use **0.1.6** if you have to use `promtheus-client` <= 0.4.2
+* ☑︎ use **0.1.6** with `prometheus-client` >= 0.5.0
 
 Exposed metrics
 -----------------
