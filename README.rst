@@ -55,6 +55,8 @@ Actually, there're two ways to run monitoring:
    It just adds a new ``route`` to your Sanic app, exposing ``/metrics`` endpoint
    on the same host and port your Sanic server runs. It might be useful if you run your
    app in a container and you do not want to expose different ports for metrics and everything else.
+   You can customize the ``/metrics`` endpoint by passing the ``metrics_path`` keyword argument:
+   ``monitor(app, metrics_path='/my_metrics_path').expose_endpoint()``.
 2. ``monitor(app).start_server(addr=..., port=...)``.
    Runs a HTTP server on given address and port and exposes ``/metrics`` endpoint on it.
    This might be useful if you want to restrict access to your ``/metrics`` endpoint using some
