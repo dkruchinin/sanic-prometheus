@@ -13,9 +13,10 @@ from .exceptions import SanicPrometheusError
 
 
 class MonitorSetup:
-    def __init__(self, app, multiprocess_on=False):
+    def __init__(self, app, metrics_path, multiprocess_on=False):
         self._app = app
         self._multiprocess_on = multiprocess_on
+        self._metrics_path = metrics_path
 
     def expose_endpoint(self):
         """
@@ -25,7 +26,7 @@ class MonitorSetup:
         and you do not want to expose more than one port for some
         reason.
         """
-        @self._app.route('/metrics', methods=['GET'])
+        @self._app.route(self._metrics_path, methods=['GET'])
         async def expose_metrics(request):
             return raw(self._get_metrics_data(),
                        content_type=CONTENT_TYPE_LATEST)
@@ -60,7 +61,8 @@ def monitor(app, endpoint_type='url:1',
             get_endpoint_fn=None,
             latency_buckets=None,
             mmc_period_sec=30,
-            multiprocess_mode='all'):
+            multiprocess_mode='all',
+            metrics_path='/metrics'):
     """
     Regiesters a bunch of metrics for Sanic server
     (request latency, count, etc) and exposes /metrics endpoint
@@ -89,6 +91,8 @@ def monitor(app, endpoint_type='url:1',
                             usage related metrics are collected.
                             Setting it to None will disable memory metrics
                             collection.
+    :multiprocess_mode':
+    :metrics_path:         path where metrics will be exposed
 
     NOTE: memory usage is not collected when when multiprocessing is enabled
     """
@@ -105,12 +109,12 @@ def monitor(app, endpoint_type='url:1',
 
     @app.middleware('request')
     async def before_request(request):
-        if request.path != '/metrics':
+        if request.path != metrics_path:
             metrics.before_request_handler(request)
 
     @app.middleware('response')
     async def before_response(request, response):
-        if request.path != '/metrics':
+        if request.path != metrics_path:
             metrics.after_request_handler(request, response, get_endpoint)
 
     if multiprocess_on:
@@ -131,7 +135,7 @@ def monitor(app, endpoint_type='url:1',
         async def stop_memcollect_task(app, loop):
             app.memcollect_task.cancel()
 
-    return MonitorSetup(app, multiprocess_on)
+    return MonitorSetup(app, metrics_path, multiprocess_on)
 
 
 __all__ = ['monitor']

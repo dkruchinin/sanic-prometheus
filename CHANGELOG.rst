@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Version 0.1.8 (on Apr 9, 2019)
+-------------------------------
+* Add metrics_path kwarg to monitor() in order to customize /metrics
+
 Version 0.1.7 (on Jan 25, 2019)
 -------------------------------
 * Make it work with newer versions of prometheus-client (>= 0.5.0)
