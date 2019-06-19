@@ -109,12 +109,12 @@ def monitor(app, endpoint_type='url:1',
 
     @app.middleware('request')
     async def before_request(request):
-        if request.path != metrics_path:
+        if request.path != metrics_path and request.method != "OPTIONS":
             metrics.before_request_handler(request)
 
     @app.middleware('response')
     async def before_response(request, response):
-        if request.path != metrics_path:
+        if request.path != metrics_path and request.method != "OPTIONS":
             metrics.after_request_handler(request, response, get_endpoint)
 
     if multiprocess_on:
