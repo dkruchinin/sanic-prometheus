@@ -1,14 +1,11 @@
 import os
-from sanic.response import raw
-from prometheus_client import (
-    start_http_server,
-    multiprocess,
-    CollectorRegistry
-)
-from prometheus_client import CONTENT_TYPE_LATEST, core
-from prometheus_client.exposition import generate_latest
 
-from . import metrics, endpoint
+from prometheus_client import (CONTENT_TYPE_LATEST, CollectorRegistry, core,
+                               multiprocess, start_http_server)
+from prometheus_client.exposition import generate_latest
+from sanic.response import raw
+
+from . import endpoint, metrics
 from .exceptions import SanicPrometheusError
 
 

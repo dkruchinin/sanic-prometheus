@@ -3,6 +3,9 @@
 bootstrap:
 	pip install -r requirements.txt
 
+bootstrap-dev:
+	pip install -r requirements-dev.txt
+
 install: clean
 	python setup.py install
 

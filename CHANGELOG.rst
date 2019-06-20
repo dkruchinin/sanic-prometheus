@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Version 0.1.10 (on  Jun 20 2019)
+-------------------------------
+* Ignore OPTIONS
+
 Version 0.1.8 (on Apr 9, 2019)
 -------------------------------
 * Add metrics_path kwarg to monitor() in order to customize /metrics

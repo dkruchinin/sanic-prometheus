@@ -1,8 +1,10 @@
 from setuptools import setup
 
+from scripts.release import get_version
+
 setup(
     name='sanic-prometheus',
-    version='0.1.8',
+    version=f'{get_version()}',
     description='Exposes various prometheus monitoring metrics of Sanic-based apps.',
     url='http://github.com/dkruchinin/sanic-prometheus',
     author='Dan Kruchinin',
