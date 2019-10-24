@@ -14,8 +14,8 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=[
-        'sanic>=0.5.0',
-        'prometheus-client~=0.5.0',
+        'sanic>=18.12',
+        'prometheus-client~=0.7.1',
         'psutil>=5.2.0'
     ],
     classifiers=[
