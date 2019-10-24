@@ -12,7 +12,7 @@ pyflakes==1.5.0
 pyparsing==2.3.0
 quantile-python==1.1
 requests==2.20.1
-sanic>=0.5.0
+sanic>=18.12
 six==1.11.0
 ujson==1.35
 uvloop==0.11.3
