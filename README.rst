@@ -12,7 +12,7 @@ Versions compatibility
 * ☑︎ use >= **0.1.4** if you need multiprocessing support
 * ☑︎ use **0.1.6** if you have to use `promtheus-client` <= 0.4.2
 * ☑︎ use **0.1.8** with `prometheus-client` >= 0.5.0
-* ☑︎ use **0.2.8** with `prometheus-client` >= 0.7.1 and Sanic >= 18.12
+* ☑︎ use **0.2.0** with `prometheus-client` >= 0.7.1 and Sanic >= 18.12
 
 Exposed metrics
 -----------------
