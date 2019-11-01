@@ -5,7 +5,7 @@ from scripts.release import get_version
 setup(
     name='sanic-prometheus',
     version=f'{get_version()}',
-    description='Exposes various prometheus monitoring metrics of Sanic-based apps.',
+    description='Exposes Prometheus monitoring metrics of Sanic apps.',
     url='http://github.com/dkruchinin/sanic-prometheus',
     author='Dan Kruchinin',
     author_email='dan.kruchinin@gmail.com',
@@ -14,8 +14,8 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=[
-        'sanic>=0.5.0',
-        'prometheus-client~=0.5.0',
+        'sanic>=18.12',
+        'prometheus-client~=0.7.1',
         'psutil>=5.2.0'
     ],
     classifiers=[
@@ -29,7 +29,6 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
 
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7'
     ],
