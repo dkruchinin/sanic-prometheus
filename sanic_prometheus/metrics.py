@@ -9,15 +9,12 @@ from prometheus_client import Counter, Histogram, Gauge
 METRICS = None
 
 
-def init(
-        latency_buckets=None, multiprocess_mode='all',
-        memcollect_enabled=True):
-    metrics = {}
-    metrics['RQS_COUNT'] = Counter(
+def init(latency_buckets=None, multiprocess_mode='all', memcollect_enabled=True, metrics_list=None):
+    metrics = {'RQS_COUNT': Counter(
         'sanic_request_count',
         'Sanic Request Count',
         ['method', 'endpoint', 'http_status']
-    )
+    )}
 
     hist_kwargs = {}
     if latency_buckets is not None:
@@ -41,6 +38,10 @@ def init(
             'the process running Sanic',
             multiprocess_mode=multiprocess_mode
         )
+
+    if metrics_list:
+        for name, pm_metric in metrics_list:
+            metrics[name] = pm_metric
 
     global METRICS
     METRICS = metrics
@@ -69,3 +70,7 @@ def after_request_handler(request, response, get_endpoint_fn):
                                   response_status).observe(lat)
     METRICS['RQS_COUNT'].labels(request.method, endpoint,
                                 response_status).inc()
+
+
+def metric(name):
+    return METRICS[name]

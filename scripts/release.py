@@ -4,7 +4,6 @@ import datetime
 import os
 import shutil
 import sys
-from tempfile import mkstemp
 
 
 def get_version():
@@ -47,6 +46,7 @@ def main():
     update_changelog(version, changelog_msg)
     print('Uploading the new release...')
     os.system('twine upload dist/*')
+
 
 if __name__ == '__main__':
     main()
