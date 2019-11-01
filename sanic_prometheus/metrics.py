@@ -1,6 +1,4 @@
-import asyncio
 import time
-import psutil
 from prometheus_client import Counter, Histogram, Gauge
 
 
@@ -38,14 +36,6 @@ def init(app, latency_buckets=None, multiprocess_mode='all',
     if metrics_list:
         for name, pm_metric in metrics_list:
             app.metrics[name] = pm_metric
-
-
-async def periodic_memcollect_task(app, period_sec, loop):
-    p = psutil.Process()
-    while True:
-        await asyncio.sleep(period_sec, loop=loop)
-        app.metrics['PROC_RSS_MEM_BYTES'].set(p.memory_info().rss)
-        app.metrics['PROC_RSS_MEM_PERC'].set(p.memory_percent())
 
 
 def before_request_handler(request):
