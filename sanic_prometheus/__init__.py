@@ -1,6 +1,7 @@
 import os
 
-from prometheus_client import CONTENT_TYPE_LATEST, CollectorRegistry, core, multiprocess, start_http_server
+from prometheus_client import CONTENT_TYPE_LATEST, CollectorRegistry, \
+    core, multiprocess, start_http_server
 from prometheus_client.exposition import generate_latest
 from sanic.response import raw
 

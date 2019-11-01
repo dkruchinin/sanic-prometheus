@@ -9,7 +9,8 @@ from prometheus_client import Counter, Histogram, Gauge
 METRICS = None
 
 
-def init(latency_buckets=None, multiprocess_mode='all', memcollect_enabled=True, metrics_list=None):
+def init(latency_buckets=None, multiprocess_mode='all',
+         memcollect_enabled=True, metrics_list=None):
     metrics = {'RQS_COUNT': Counter(
         'sanic_request_count',
         'Sanic Request Count',
