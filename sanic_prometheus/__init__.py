@@ -105,7 +105,9 @@ def monitor(app, endpoint_type='url:1',
 
     @app.listener('before_server_start')
     def before_start(app, loop):
+        app.metrics = {}
         metrics.init(
+            app,
             latency_buckets, multiprocess_mode,
             memcollect_enabled=memcollect_enabled,
             metrics_list=metrics_list,
@@ -131,6 +133,7 @@ def monitor(app, endpoint_type='url:1',
         async def start_memcollect_task(app, loop):
             app.memcollect_task = loop.create_task(
                 metrics.periodic_memcollect_task(
+                    app,
                     mmc_period_sec,
                     loop
                 )

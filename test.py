@@ -22,4 +22,4 @@ async def home(request):
 if __name__ == '__main__':
     monitor(app).expose_endpoint()
     app.blueprint(test_bp)
-    app.run(host='127.0.0.1', port=8000, access_log=True, debug=True)
+    app.run(host='127.0.0.1', port=8000, auto_reload=False, access_log=True, debug=True)
