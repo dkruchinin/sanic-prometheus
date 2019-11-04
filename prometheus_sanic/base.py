@@ -40,8 +40,9 @@ class MonitorSetup:
         """
         if self._multiprocess_on:
             raise SanicPrometheusError(
-                "start_server can not be used when multiprocessing " +
-                "is turned on")
+                "start_server can not be used when "
+                "multiprocessing is turned on"
+            )
         start_http_server(addr=addr, port=port)
 
     def _get_metrics_data(self):
