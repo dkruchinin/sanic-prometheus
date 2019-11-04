@@ -5,6 +5,26 @@ description = "Exposes Prometheus monitoring metrics of Sanic apps."
 authors = ["skar404 <skar404@gmail.com>"]
 license = "MIT"
 
+readme = "README.rst"
+
+repository = "https://github.com/skar404/prometheus-sanic"
+keywords = ["python", "prometheus", "sanic", "monitoring", "python-library"]
+
+classifiers = [
+    "Intended Audience :: Developers",
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+
+    "Operating System :: OS Independent",
+    "Environment :: Web Environment",
+    "Topic :: System :: Monitoring",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+]
+
 [tool.poetry.dependencies]
 python = "^3.6 || ^3.7"
 sanic = ">=0.7.0"

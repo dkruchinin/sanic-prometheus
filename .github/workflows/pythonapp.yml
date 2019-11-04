@@ -27,7 +27,4 @@ jobs:
         poetry run flake8 --ignore=E731 --ignore=F401 prometheus_sanic
     - name: Test with pytest
       run: |
-        source $HOME/.poetry/env
-        TMPD=`mktemp -d`
-
         ./tests/run_multiproc_it.sh
