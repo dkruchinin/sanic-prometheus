@@ -1,14 +1,18 @@
 [tool.poetry]
 name = "prometheus-sanic"
-version = "0.1.0"
+version = "0.2.1"
 description = "Exposes Prometheus monitoring metrics of Sanic apps."
 authors = ["skar404 <skar404@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.6 || ^3.7"
+sanic = ">=0.7.0"
+prometheus-client = "^0.7.1"
 
 [tool.poetry.dev-dependencies]
+flake8 = "=3.3.0"
+
 
 [build-system]
 requires = ["poetry>=0.12"]

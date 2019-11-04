@@ -3,9 +3,6 @@
 bootstrap:
 	pip install -r requirements.txt
 
-bootstrap-dev:
-	pip install -r requirements-dev.txt
-
 install: clean
 	python setup.py install
 
@@ -20,4 +17,3 @@ integration-test:
 
 clean:
 	rm -rf dist *.egg.info *.egg-info build
-
