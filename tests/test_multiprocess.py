@@ -6,6 +6,7 @@ from urllib import request
 
 from sanic import Sanic
 from sanic.response import json
+
 from prometheus_sanic import monitor, SanicPrometheusError
 
 TEST_PORT = 54424
@@ -15,7 +16,7 @@ def launch_server():
     app = Sanic('test_mp')
 
     @app.route('/test')
-    async def test(request):
+    async def test(_request):
         return json({'a': 'b'})
 
     monitor(app).expose_endpoint()
