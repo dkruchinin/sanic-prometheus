@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 0.2.1 (on  Nov 04 2019)
+-------------------------------
+* update version 
+
+Version 0.2.1 (on  Nov 04 2019)
+-------------------------------
+* Version 0.2.0 (on  Nov 04 2019)
+
 Version 0.2.0 (on  Nov 04 2019)
 -------------------------------
 * update lib 
