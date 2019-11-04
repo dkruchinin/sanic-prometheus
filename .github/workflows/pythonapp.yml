@@ -27,4 +27,5 @@ jobs:
         poetry run flake8 --ignore=E731 --ignore=F401 prometheus_sanic
     - name: Test with pytest
       run: |
-        ./tests/run_multiproc_it.sh
+        export prometheus_multiproc_dir=`mktemp -d`
+        python -m unittest tests/it_multiprocess.py
