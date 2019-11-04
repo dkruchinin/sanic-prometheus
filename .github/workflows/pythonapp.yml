@@ -25,4 +25,4 @@ jobs:
         pip freeze
         echo "poetry"
         poetry run pip freeze
-        python -m unittest tests/*
+        poetry run python -m unittest discover -s tests/ -t .
