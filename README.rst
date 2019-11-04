@@ -4,35 +4,14 @@ Sanic prometheus metrics
 
 After googling for a while I didn't find a library that would enable some `prometheus <https://prometheus.io/>`_ metrics for `Sanic <https://github.com/channelcat/sanic>`_-based apps, so I had to write one. It makes adding monitoring to your Sanic app super easy, just add one line to your code (ok, two if you count import :) and point Prometheus to a newly appeared `/metrics` endpoint.
 
-Versions compatibility
+Installation and enabling monitoring
 ----------------------
 
-* ☑︎ use **0.1.0** for Sanic <= 0.4.1
-* ☑︎ use **0.1.3** for Sanic >= 0.5.0
-* ☑︎ use >= **0.1.4** if you need multiprocessing support
-* ☑︎ use **0.1.6** if you have to use `promtheus-client` <= 0.4.2
-* ☑︎ use **0.1.8** with `prometheus-client` >= 0.5.0
-* ☑︎ use **0.2.0** with `prometheus-client` >= 0.7.1 and Sanic >= 18.12
+Installatio:
 
-Exposed metrics
------------------
+.. code:: shell
 
-At the moment ``prometheus-sanic`` provides four metrics:
-
-* **sanic_request_count** - total number of requests (labels: *method*, *endpoint*, *status*) [`counter <https://prometheus.io/docs/concepts/metric_types/#counter>`_]
-* **sanic_request_latency_sec** - request latency in seconds (labels: *method*, *endpoint*) [`histogram <https://prometheus.io/docs/concepts/metric_types/#histogram>`_]
-* **sanic_mem_rss_bytes** - resident memory used by the process (in bytes) [`gauge <https://prometheus.io/docs/concepts/metric_types/#gauge>`_]
-* **sanic_mem_rss_perc** - a percent of total physical memory used by the process running Sanic [`gauge <https://prometheus.io/docs/concepts/metric_types/#gauge>`_]
-  
-Labels
------------------
-
-* **method**: a HTTP method (i.e. GET/POST/DELETE/etc)
-* **endpoint**: just a string, a name identifying a point handling a group of requests. By default it's just the first element of the relative path of the URL being called (i.e. for http://myhost/a/b/c you'll end up having ``/a`` as your endpoint). It is quite configurable, in fact it's up you what's gonna get to the ``endpoint`` label (see ``help(prometheus_sanic.monitor)`` for more details)
-* **http_status**: a HTTP status code
-
-Enabling monitoring
------------------
+    pip install prometheus-sanic
 
 Easy-peasy:
 
@@ -63,6 +42,33 @@ Actually, there're two ways to run monitoring:
    This might be useful if you want to restrict access to your ``/metrics`` endpoint using some
    firewall rules
 
+
+Versions compatibility
+----------------------
+
+* ☑︎ use **0.1.0** for Sanic <= 0.4.1
+* ☑︎ use **0.1.3** for Sanic >= 0.5.0
+* ☑︎ use >= **0.1.4** if you need multiprocessing support
+* ☑︎ use **0.1.6** if you have to use `promtheus-client` <= 0.4.2
+* ☑︎ use **0.1.8** with `prometheus-client` >= 0.5.0
+* ☑︎ use **0.2.0** with `prometheus-client` >= 0.7.1 and Sanic >= 18.12
+
+Exposed metrics
+-----------------
+
+At the moment ``prometheus-sanic`` provides four metrics:
+
+* **sanic_request_count** - total number of requests (labels: *method*, *endpoint*, *status*) [`counter <https://prometheus.io/docs/concepts/metric_types/#counter>`_]
+* **sanic_request_latency_sec** - request latency in seconds (labels: *method*, *endpoint*) [`histogram <https://prometheus.io/docs/concepts/metric_types/#histogram>`_]
+* **sanic_mem_rss_bytes** - resident memory used by the process (in bytes) [`gauge <https://prometheus.io/docs/concepts/metric_types/#gauge>`_]
+* **sanic_mem_rss_perc** - a percent of total physical memory used by the process running Sanic [`gauge <https://prometheus.io/docs/concepts/metric_types/#gauge>`_]
+  
+Labels
+-----------------
+
+* **method**: a HTTP method (i.e. GET/POST/DELETE/etc)
+* **endpoint**: just a string, a name identifying a point handling a group of requests. By default it's just the first element of the relative path of the URL being called (i.e. for http://myhost/a/b/c you'll end up having ``/a`` as your endpoint). It is quite configurable, in fact it's up you what's gonna get to the ``endpoint`` label (see ``help(prometheus_sanic.monitor)`` for more details)
+* **http_status**: a HTTP status code
 
 Multiprocess mode
 -----------------
