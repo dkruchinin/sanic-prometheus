@@ -19,7 +19,7 @@ jobs:
         poetry install
     - name: Build
       run: |
-        python setup.py install
+        poetry build
     - name: Lint with flake8
       run: |
         poetry run flake8 --ignore=E731 --ignore=F401 prometheus_sanic
