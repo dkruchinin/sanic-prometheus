@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock
-from sanic_prometheus.endpoint import fn_by_type, get_from_url
+from prometheus_sanic.endpoint import fn_by_type, get_from_url
 
 
 def mk_request(url):

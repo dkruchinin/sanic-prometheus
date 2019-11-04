@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from sanic_prometheus import monitor
+from prometheus_sanic import monitor
 from sanic import Sanic, response, Blueprint
 from sanic_limiter import Limiter, get_remote_address
 

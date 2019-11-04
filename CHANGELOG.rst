@@ -39,4 +39,4 @@ in request.url, switch to using request.path instead.
 
 Version 0.1.0 (Apr 4, 2017)
 ---------------------------
-First public version of sanic-prometheus
+First public version of prometheus-sanic

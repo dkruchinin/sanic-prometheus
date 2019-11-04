@@ -17,7 +17,7 @@ Versions compatibility
 Exposed metrics
 -----------------
 
-At the moment ``sanic-prometheus`` provides four metrics:
+At the moment ``prometheus-sanic`` provides four metrics:
 
 * **sanic_request_count** - total number of requests (labels: *method*, *endpoint*, *status*) [`counter <https://prometheus.io/docs/concepts/metric_types/#counter>`_]
 * **sanic_request_latency_sec** - request latency in seconds (labels: *method*, *endpoint*) [`histogram <https://prometheus.io/docs/concepts/metric_types/#histogram>`_]
@@ -28,7 +28,7 @@ Labels
 -----------------
 
 * **method**: a HTTP method (i.e. GET/POST/DELETE/etc)
-* **endpoint**: just a string, a name identifying a point handling a group of requests. By default it's just the first element of the relative path of the URL being called (i.e. for http://myhost/a/b/c you'll end up having ``/a`` as your endpoint). It is quite configurable, in fact it's up you what's gonna get to the ``endpoint`` label (see ``help(sanic_prometheus.monitor)`` for more details)
+* **endpoint**: just a string, a name identifying a point handling a group of requests. By default it's just the first element of the relative path of the URL being called (i.e. for http://myhost/a/b/c you'll end up having ``/a`` as your endpoint). It is quite configurable, in fact it's up you what's gonna get to the ``endpoint`` label (see ``help(prometheus_sanic.monitor)`` for more details)
 * **http_status**: a HTTP status code
 
 Enabling monitoring
@@ -39,7 +39,7 @@ Easy-peasy:
 .. code:: python
 
   from sanic import Sanic
-  from sanic_prometheus import monitor
+  from prometheus_sanic import monitor
 
   app = Sanic()
   ...
@@ -84,7 +84,7 @@ Configuration
 Best you can do is::
 
      % ipython
-     In [1]: from sanic_prometheus import monitor
+     In [1]: from prometheus_sanic import monitor
      In [2]: help(monitor)
 
 
@@ -104,9 +104,9 @@ Prometheus quering examples:
 
     rate(sanic_mem_rss_perc[10m])
 
-.. |Build Status| image:: https://travis-ci.org/dkruchinin/sanic-prometheus.svg?branch=master
-   :target: https://travis-ci.org/dkruchinin/sanic-prometheus
-.. |PyPI| image:: https://img.shields.io/pypi/v/sanic-prometheus.svg
-   :target: https://pypi.python.org/pypi/sanic-prometheus/
-.. |PyPI version| image:: https://img.shields.io/pypi/pyversions/sanic-prometheus.svg
-   :target: https://pypi.python.org/pypi/sanic-prometheus/
+.. |Build Status| image:: https://travis-ci.org/skar404/prometheus-sanic.svg?branch=master
+   :target: https://travis-ci.org/dkruchinin/prometheus-sanic
+.. |PyPI| image:: https://img.shields.io/pypi/v/prometheus-sanic.svg
+   :target: https://pypi.python.org/pypi/prometheus-sanic/
+.. |PyPI version| image:: https://img.shields.io/pypi/pyversions/prometheus-sanic.svg
+   :target: https://pypi.python.org/pypi/prometheus-sanic/

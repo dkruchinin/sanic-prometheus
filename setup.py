@@ -3,14 +3,14 @@ from setuptools import setup
 from scripts.release import get_version
 
 setup(
-    name='sanic-prometheus',
+    name='prometheus-sanic',
     version=f'{get_version()}',
     description='Exposes Prometheus monitoring metrics of Sanic apps.',
-    url='http://github.com/dkruchinin/sanic-prometheus',
-    author='Dan Kruchinin',
-    author_email='dan.kruchinin@gmail.com',
+    url='https://github.com/skar404/prometheus-sanic',
+    author='None User',
+    author_email='skar404@gmail.com',
     license='MIT',
-    packages=['sanic_prometheus'],
+    packages=['prometheus_sanic'],
     zip_safe=False,
     platforms='any',
     install_requires=[

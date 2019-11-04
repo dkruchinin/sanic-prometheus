@@ -11,7 +11,7 @@ from importlib import reload
 from sanic import Sanic
 from sanic.response import json
 import prometheus_client
-from sanic_prometheus import monitor, SanicPrometheusError
+from prometheus_sanic import monitor, SanicPrometheusError
 
 
 TEST_PORT = 54424
