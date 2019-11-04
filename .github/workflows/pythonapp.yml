@@ -1,6 +1,6 @@
-name: Python package
+name: Tests
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -17,15 +17,13 @@ jobs:
       run: |
         python -m pip install --upgrade pip poetry
         poetry install
-    - name: Build lib
+    - name: Build
       run: |
-        # source $HOME/.poetry/env
         python setup.py install
     - name: Lint with flake8
       run: |
-        # source $HOME/.poetry/env
         poetry run flake8 --ignore=E731 --ignore=F401 prometheus_sanic
-    - name: Test with pytest
+    - name: Test with unittest
       run: |
         export prometheus_multiproc_dir=`mktemp -d`
         python -m unittest tests/it_multiprocess.py
