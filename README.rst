@@ -5,13 +5,13 @@ Sanic prometheus metrics
 After googling for a while I didn't find a library that would enable some `prometheus <https://prometheus.io/>`_ metrics for `Sanic <https://github.com/channelcat/sanic>`_-based apps, so I had to write one. It makes adding monitoring to your Sanic app super easy, just add one line to your code (ok, two if you count import :) and point Prometheus to a newly appeared `/metrics` endpoint.
 
 Installation and enabling monitoring
-----------------------
+-------------------------------------
 
 Installatio:
 
-.. code:: shell
+.. code:: bash
 
-    pip install prometheus-sanic
+  pip install prometheus-sanic
 
 Easy-peasy:
 
@@ -110,8 +110,8 @@ Prometheus quering examples:
 
     rate(sanic_mem_rss_perc[10m])
 
-.. |Build Status| image:: https://travis-ci.org/skar404/prometheus-sanic.svg?branch=master
-   :target: https://travis-ci.org/skar404/prometheus-sanic
+.. |Build Status| image:: https://github.com/skar404/prometheus-sanic/workflows/Tests/badge.svg
+   :target: https://github.com/skar404/prometheus-sanic/actions/
 .. |PyPI| image:: https://img.shields.io/pypi/v/prometheus-sanic.svg
    :target: https://pypi.python.org/pypi/prometheus-sanic/
 .. |PyPI version| image:: https://img.shields.io/pypi/pyversions/prometheus-sanic.svg
