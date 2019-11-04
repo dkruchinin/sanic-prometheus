@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "prometheus-sanic"
-version = "0.2.2"
+version = "1.0.0"
 description = "Exposes Prometheus monitoring metrics of Sanic apps."
 authors = ["skar404 <skar404@gmail.com>"]
 license = "MIT"
