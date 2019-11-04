@@ -1,0 +1,3 @@
+flake8==3.*,>=3.3.0
+prometheus-client==0.*,>=0.7.1
+sanic>=0.7.0
