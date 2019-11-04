@@ -22,4 +22,7 @@ jobs:
         poetry run flake8 --ignore=E731 --ignore=F401 prometheus_sanic
     - name: Test with unittest
       run: |
+        pip freeze
+        echo "poetry"
+        poetry run pip freeze
         python -m unittest discover -s tests/ -t .
