@@ -3,7 +3,7 @@ IS_MULTIPROCESS = True
 if IS_MULTIPROCESS:
     import os
 
-    os.environ['prometheus_multiproc_dir'] = 'prometheus_temp'
+    os.environ['prometheus_multiproc_dir'] = 'prometheus_tmp'
 
 
 import asyncio
