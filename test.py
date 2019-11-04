@@ -2,16 +2,9 @@
 
 from prometheus_sanic import monitor
 from sanic import Sanic, response, Blueprint
-from sanic_limiter import Limiter, get_remote_address
-
 
 app = Sanic()
 test_bp = Blueprint('test')
-
-limiter = Limiter(
-    app,
-    global_limits=['10 per second', '500 per day'],
-    key_func=get_remote_address)
 
 
 @test_bp.route('/home', methods=['GET'])

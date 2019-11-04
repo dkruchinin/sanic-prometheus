@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Version 0.2.0 (on  Nov 04 2019)
+-------------------------------
+* update lib 
+
 Version 0.1.10 (on  Jun 20 2019)
 -------------------------------
 * Ignore OPTIONS

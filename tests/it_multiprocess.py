@@ -1,18 +1,12 @@
-import os
 import re
 import unittest
-from tempfile import mkdtemp
-from shutil import rmtree
 from time import sleep
 from multiprocessing import Process
 from urllib import request
-from importlib import reload
 
 from sanic import Sanic
 from sanic.response import json
-import prometheus_client
 from prometheus_sanic import monitor, SanicPrometheusError
-
 
 TEST_PORT = 54424
 

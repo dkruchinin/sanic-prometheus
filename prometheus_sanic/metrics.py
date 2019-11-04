@@ -1,10 +1,18 @@
 import time
-from prometheus_client import Counter, Histogram, Gauge
+from typing import List, Tuple
+
+from prometheus_client import Counter, Histogram
+from prometheus_client.metrics import MetricWrapperBase
+
+
+class MetricsName:
+    LATENCY = 'RQS_LATENCY'
+    COUNT = 'RQS_COUNT'
 
 
 def init(app, latency_buckets=None, multiprocess_mode='all',
-         memcollect_enabled=True, metrics_list=None):
-    app.metrics['RQS_COUNT'] = Counter(
+         metrics_list: List[Tuple[str, MetricWrapperBase]] = None):
+    app.metrics[MetricsName.COUNT] = Counter(
         'sanic_request_count',
         'Sanic Request Count',
         ['method', 'endpoint', 'http_status']
@@ -13,28 +21,20 @@ def init(app, latency_buckets=None, multiprocess_mode='all',
     hist_kwargs = {}
     if latency_buckets is not None:
         hist_kwargs = {'buckets': latency_buckets}
-    app.metrics['RQS_LATENCY'] = Histogram(
+    app.metrics[MetricsName.LATENCY] = Histogram(
         'sanic_request_latency_sec',
         'Sanic Request Latency Histogram',
         ['method', 'endpoint', 'http_status'],
         **hist_kwargs
     )
 
-    if memcollect_enabled:
-        app.metrics['PROC_RSS_MEM_BYTES'] = Gauge(
-            'sanic_mem_rss_bytes',
-            'Resident memory used by process running Sanic',
-            multiprocess_mode=multiprocess_mode
-        )
-        app.metrics['PROC_RSS_MEM_PERC'] = Gauge(
-            'sanic_mem_rss_perc',
-            'A per cent of total physical memory used by ' +
-            'the process running Sanic',
-            multiprocess_mode=multiprocess_mode
-        )
-
     if metrics_list:
         for name, pm_metric in metrics_list:
+            # todo set multiprocess_mode is Gauge
+            # app.metrics[name'] = Gauge(
+            #             ...
+            #             multiprocess_mode=multiprocess_mode
+            #         )
             app.metrics[name] = pm_metric
 
 
@@ -49,9 +49,9 @@ def after_request_handler(request, response, get_endpoint_fn):
     # Note, that some handlers can ignore response logic,
     # for example, websocket handler
     response_status = response.status if response else 200
-    request.app.metrics['RQS_LATENCY'].labels(
+    request.app.metrics[MetricsName.LATENCY].labels(
         request.method, endpoint, response_status
     ).observe(lat)
-    request.app.metrics['RQS_COUNT'].labels(
+    request.app.metrics[MetricsName.COUNT].labels(
         request.method, endpoint, response_status
     ).inc()

@@ -7,7 +7,7 @@ setup(
     version=f'{get_version()}',
     description='Exposes Prometheus monitoring metrics of Sanic apps.',
     url='https://github.com/skar404/prometheus-sanic',
-    author='None User',
+    author='user',
     author_email='skar404@gmail.com',
     license='MIT',
     packages=['prometheus_sanic'],
@@ -29,7 +29,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
 
         'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7'
+        'Programming Language :: Python :: 3.7',
     ],
     keywords='sanic prometheus monitoring'
 )
