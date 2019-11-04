@@ -105,7 +105,7 @@ Prometheus quering examples:
     rate(sanic_mem_rss_perc[10m])
 
 .. |Build Status| image:: https://travis-ci.org/skar404/prometheus-sanic.svg?branch=master
-   :target: https://travis-ci.org/dkruchinin/prometheus-sanic
+   :target: https://travis-ci.org/skar404/prometheus-sanic
 .. |PyPI| image:: https://img.shields.io/pypi/v/prometheus-sanic.svg
    :target: https://pypi.python.org/pypi/prometheus-sanic/
 .. |PyPI version| image:: https://img.shields.io/pypi/pyversions/prometheus-sanic.svg
