@@ -2,7 +2,7 @@
 name = "prometheus-sanic"
 version = "1.0.0"
 description = "Exposes Prometheus monitoring metrics of Sanic apps."
-authors = ["skar404 <skar404@gmail.com>"]
+authors = ["skar404 <skar404@gmail.com>", "Dan Kruchinin <dan.kruchinin@gmail.com>"]
 license = "MIT"
 
 readme = "README.rst"
