@@ -22,7 +22,9 @@ jobs:
         python setup.py install
     - name: Lint with flake8
       run: |
+        poetry install
         flake8 --ignore=E731 --ignore=F401 prometheus_sanic
     - name: Test with pytest
       run: |
+        poetry install
         ./tests/run_multiproc_it.sh
