@@ -2,7 +2,7 @@
 name = "prometheus-sanic"
 version = "1.0.0"
 description = "Exposes Prometheus monitoring metrics of Sanic apps."
-authors = ["skar404 <skar404@gmail.com>", "Dan Kruchinin <dan.kruchinin@gmail.com>"]
+authors = ["Dan Kruchinin <dan.kruchinin@gmail.com>", "skar404 <skar404@gmail.com>"]
 license = "MIT"
 
 readme = "README.rst"
@@ -24,6 +24,10 @@ classifiers = [
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
 ]
+
+[tool.dephell.main]
+from = {format = "poetry", path = "pyproject.toml"}
+to = {format = "setuppy", path = "setup.py"}
 
 [tool.poetry.dependencies]
 python = "^3.6 || ^3.7"
