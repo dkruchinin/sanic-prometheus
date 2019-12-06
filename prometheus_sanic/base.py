@@ -121,7 +121,8 @@ def monitor(app, endpoint_type='url:1',
     def before_start(init_app, _loop):
         init_app.metrics = {}
         metrics.init(
-            init_app, latency_buckets, multiprocess_mode, metrics_list, base_metrics
+            init_app, latency_buckets, multiprocess_mode,
+            metrics_list, base_metrics
         )
 
     if is_middleware is True:

@@ -16,7 +16,8 @@ def before_request_handler(request):
         request[RequestMetaData.ROUTER] = None
 
 
-def after_request_endpoint_handler(request, response, get_endpoint_fn, *args, **kwargs):
+def after_request_endpoint_handler(request, response, get_endpoint_fn,
+                                   *args, **kwargs):
     lat = time.time() - request[RequestMetaData.TIME]
     endpoint = get_endpoint_fn(request)
 
