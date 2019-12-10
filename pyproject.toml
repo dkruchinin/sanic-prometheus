@@ -14,7 +14,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "Development Status :: 3 - Alpha",
     "License :: OSI Approved :: MIT License",
-
+s
     "Operating System :: OS Independent",
     "Environment :: Web Environment",
     "Topic :: System :: Monitoring",
@@ -36,6 +36,7 @@ prometheus-client = "^0.7.1"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.3.0"
+coverage = "^4.5"
 
 [build-system]
 requires = ["poetry>=0.12"]
