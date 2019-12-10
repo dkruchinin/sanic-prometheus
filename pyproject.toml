@@ -14,7 +14,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "Development Status :: 3 - Alpha",
     "License :: OSI Approved :: MIT License",
-s
+
     "Operating System :: OS Independent",
     "Environment :: Web Environment",
     "Topic :: System :: Monitoring",
