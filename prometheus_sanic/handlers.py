@@ -1,6 +1,6 @@
 import time
 
-from sanic.exceptions import NotFound
+from sanic.exceptions import NotFound, InvalidUsage
 
 from prometheus_sanic.constants import RequestMetaData, BaseMetrics
 
@@ -13,6 +13,8 @@ def before_request_handler(request):
         _handler, _args, _kwargs, uri = request.app.router.get(request)
         request[RequestMetaData.ROUTER] = uri
     except NotFound:
+        request[RequestMetaData.ROUTER] = None
+    except InvalidUsage:
         request[RequestMetaData.ROUTER] = None
 
 
