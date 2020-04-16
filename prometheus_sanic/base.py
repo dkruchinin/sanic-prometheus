@@ -67,12 +67,14 @@ def monitor(app, endpoint_type='url:1',
             before_handler=None,
             after_handler=None,
             base_metrics=None,
+            init_metrics_object: dict = None
             ):
     """
     Regiesters a bunch of metrics for Sanic server
     (request latency, count, etc) and exposes /metrics endpoint
     to allow Prometheus to scrape them out.
 
+    :param init_metrics_object:
     :param base_metrics:
     :param before_handler:
     :param after_handler:
@@ -120,6 +122,8 @@ def monitor(app, endpoint_type='url:1',
     @app.listener('before_server_start')
     def before_start(init_app, _loop):
         init_app.metrics = {}
+        if init_metrics_object:
+            init_app.metrics = init_metrics_object
         metrics.init(
             init_app, latency_buckets, multiprocess_mode,
             metrics_list, base_metrics
