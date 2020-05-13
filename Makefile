@@ -18,6 +18,10 @@ test: lint integration-test
 integration-test:
 	./tests/run_multiproc_it.sh
 
+release:
+	python setup.py sdist bdist_wheel
+	twine upload dist/*
+
 clean:
 	rm -rf dist *.egg.info *.egg-info build
 

@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 0.2.0 (on May 13 2020)
+-------------------------------
+* Custom metrics + refactoring (@axyjo and @skar404)
+
+
 Version 0.1.10 (on  Jun 20 2019)
 -------------------------------
 * Ignore OPTIONS

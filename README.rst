@@ -7,7 +7,7 @@ After googling for a while I didn't find a library that would enable some `prome
 Versions compatibility
 ----------------------
 
-* ☑︎ use **0.1.0** for Sanic <= 0.4.1
+* ☑︎ use **>= 0.1.0** for Sanic <= 0.4.1
 * ☑︎ use **0.1.3** for Sanic >= 0.5.0
 * ☑︎ use >= **0.1.4** if you need multiprocessing support
 * ☑︎ use **0.1.6** if you have to use `promtheus-client` <= 0.4.2
@@ -23,7 +23,7 @@ At the moment ``sanic-prometheus`` provides four metrics:
 * **sanic_request_latency_sec** - request latency in seconds (labels: *method*, *endpoint*) [`histogram <https://prometheus.io/docs/concepts/metric_types/#histogram>`_]
 * **sanic_mem_rss_bytes** - resident memory used by the process (in bytes) [`gauge <https://prometheus.io/docs/concepts/metric_types/#gauge>`_]
 * **sanic_mem_rss_perc** - a percent of total physical memory used by the process running Sanic [`gauge <https://prometheus.io/docs/concepts/metric_types/#gauge>`_]
-  
+
 Labels
 -----------------
 
@@ -52,7 +52,7 @@ Easy-peasy:
 Actually, there're two ways to run monitoring:
 
 
-1. The one you've seen above, ``monitor(app).expose_endpoint()``. 
+1. The one you've seen above, ``monitor(app).expose_endpoint()``.
    It just adds a new ``route`` to your Sanic app, exposing ``/metrics`` endpoint
    on the same host and port your Sanic server runs. It might be useful if you run your
    app in a container and you do not want to expose different ports for metrics and everything else.
@@ -67,7 +67,7 @@ Actually, there're two ways to run monitoring:
 Multiprocess mode
 -----------------
 
-Sanic allows to launch multiple worker processes to utilise parallelisation, which is great but makes metrics collection much trickier (`read more <https://github.com/prometheus/client_python/blob/master/README.md#multiprocess-mode-gunicorn>`_) and introduces some limitations. 
+Sanic allows to launch multiple worker processes to utilise parallelisation, which is great but makes metrics collection much trickier (`read more <https://github.com/prometheus/client_python/blob/master/README.md#multiprocess-mode-gunicorn>`_) and introduces some limitations.
 
 In order to collect metrics from multiple workers, create a directory and point a ``prometheus_multiproc_dir`` environment variable to it. Make sure the directory is empty before you launch your service::
 
@@ -93,10 +93,10 @@ Prometheus quering examples:
 
 * *Average latency over last 30 minutes*::
 
-    rate(sanic_request_latency_sec_sum{endpoint='/your-endpoint'}[30m]) / 
+    rate(sanic_request_latency_sec_sum{endpoint='/your-endpoint'}[30m]) /
     rate(sanic_request_latency_sec_count{endpoint='/your-endpoint'}[30m])
 
-* *95th percentile of request latency*:: 
+* *95th percentile of request latency*::
 
     histogram_quantile(0.95, sum(rate(sanic_request_latency_sec_bucket[5m])) by (le))
 
