@@ -1,7 +1,7 @@
 import os
 
-from prometheus_client import (CONTENT_TYPE_LATEST, CollectorRegistry, core,
-                               multiprocess, start_http_server)
+from prometheus_client import CONTENT_TYPE_LATEST, CollectorRegistry, \
+    core, multiprocess, start_http_server
 from prometheus_client.exposition import generate_latest
 from sanic.response import raw
 
@@ -23,6 +23,7 @@ class MonitorSetup:
         and you do not want to expose more than one port for some
         reason.
         """
+
         @self._app.route(self._metrics_path, methods=['GET'])
         async def expose_metrics(request):
             return raw(self._get_metrics_data(),
@@ -44,7 +45,6 @@ class MonitorSetup:
         start_http_server(addr=addr, port=port)
 
     def _get_metrics_data(self):
-        registry = None
         if not self._multiprocess_on:
             registry = core.REGISTRY
         else:
@@ -59,12 +59,18 @@ def monitor(app, endpoint_type='url:1',
             latency_buckets=None,
             mmc_period_sec=30,
             multiprocess_mode='all',
-            metrics_path='/metrics'):
+            metrics_path='/metrics',
+            is_middleware=True,
+            metrics_list=None):
     """
     Regiesters a bunch of metrics for Sanic server
     (request latency, count, etc) and exposes /metrics endpoint
     to allow Prometheus to scrape them out.
 
+    :param metrics_list:
+    :param is_middleware:
+    :param metrics_path:
+    :param multiprocess_mode:
     :param app: an instance of sanic.app
     :param endpoint_type: All request related metrics have a label called
                          'endpoint'. It can be fetched from Sanic `request`
@@ -99,20 +105,24 @@ def monitor(app, endpoint_type='url:1',
 
     @app.listener('before_server_start')
     def before_start(app, loop):
+        app.metrics = {}
         metrics.init(
+            app,
             latency_buckets, multiprocess_mode,
-            memcollect_enabled=memcollect_enabled
+            memcollect_enabled=memcollect_enabled,
+            metrics_list=metrics_list,
         )
 
-    @app.middleware('request')
-    async def before_request(request):
-        if request.path != metrics_path and request.method != "OPTIONS":
-            metrics.before_request_handler(request)
+    if is_middleware is True:
+        @app.middleware('request')
+        async def before_request(request):
+            if request.path != metrics_path and request.method != "OPTIONS":
+                metrics.before_request_handler(request)
 
-    @app.middleware('response')
-    async def before_response(request, response):
-        if request.path != metrics_path and request.method != "OPTIONS":
-            metrics.after_request_handler(request, response, get_endpoint)
+        @app.middleware('response')
+        async def before_response(request, response):
+            if request.path != metrics_path and request.method != "OPTIONS":
+                metrics.after_request_handler(request, response, get_endpoint)
 
     if multiprocess_on:
         @app.listener('after_server_stop')
@@ -123,6 +133,7 @@ def monitor(app, endpoint_type='url:1',
         async def start_memcollect_task(app, loop):
             app.memcollect_task = loop.create_task(
                 metrics.periodic_memcollect_task(
+                    app,
                     mmc_period_sec,
                     loop
                 )

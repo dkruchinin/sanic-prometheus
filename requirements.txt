@@ -4,7 +4,7 @@ flake8==3.3.0
 httptools==0.0.11
 mccabe==0.6.1
 packaging==16.8
-prometheus_client==0.5.0
+prometheus_client==0.7.1
 protobuf-py3==2.5.1
 psutil==5.6.6
 pycodestyle==2.3.1
@@ -12,7 +12,7 @@ pyflakes==1.5.0
 pyparsing==2.3.0
 quantile-python==1.1
 requests==2.20.1
-sanic>=0.5.0
+sanic>=18.12
 six==1.11.0
 ujson==1.35
 uvloop==0.11.3

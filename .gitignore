@@ -5,3 +5,5 @@ __pycache__
 .python-version
 .cache
 RELEASE.rst.tmp
+.idea/
+.venv
