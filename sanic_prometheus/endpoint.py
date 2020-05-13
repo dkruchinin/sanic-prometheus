@@ -14,7 +14,7 @@ def make_url_endpoint_fn(url_type):
     else:
         try:
             n = int(lim_str)
-        except ValueError as _:
+        except ValueError:
             raise ValueError(
                 'url endpoint type can be either "url" or "url:<int>"'
             )
@@ -24,7 +24,7 @@ def make_url_endpoint_fn(url_type):
 def fn_by_type(ep_type, get_endpoint_fn):
     if ep_type.startswith('url'):
         return make_url_endpoint_fn(ep_type)
-    elif ep_type is 'custom':
+    elif ep_type == 'custom':
         if get_endpoint_fn is None:
             raise ValueError(
                 '"custom" type requires endpoint function to be set'

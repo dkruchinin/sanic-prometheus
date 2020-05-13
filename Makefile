@@ -10,7 +10,7 @@ install: clean
 	python setup.py install
 
 lint:
-	flake8 --ignore=E731 sanic_prometheus
+	flake8 sanic_prometheus
 
 test: lint integration-test
 	python -m unittest discover tests
