@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Version 0.2.1 (on Oct 12 2020)
+------------------------------
+* Changed the sanic request ctx for __START_TIME__ for the middleware is going to be deprecated, added the newer ctx way for adding custom objects. (by Arvind Mishra)
+
 Version 0.2.0 (on May 13 2020)
 -------------------------------
 * Custom metrics + refactoring (@axyjo and @skar404)
