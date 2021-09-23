@@ -49,11 +49,11 @@ async def periodic_memcollect_task(app, period_sec, loop):
 
 
 def before_request_handler(request):
-    request.ctx.__START_TIME__ = time.time()
+    request.ctx.__START_TIME__ = time.perf_counter()
 
 
 def after_request_handler(request, response, get_endpoint_fn):
-    lat = time.time() - request.ctx.__START_TIME__
+    lat = time.perf_counter() - request.ctx.__START_TIME__
     endpoint = get_endpoint_fn(request)
 
     # Note, that some handlers can ignore response logic,
