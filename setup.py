@@ -1,10 +1,9 @@
 from setuptools import setup
 
-from scripts.release import get_version
 
 setup(
     name='sanic-prometheus-mon',
-    version=f'{get_version()}',
+    version='0.3.3',
     description='Exposes Prometheus monitoring metrics of Sanic apps.',
     url='https://github.com/valerylisay/sanic-prometheus-mon',
     author='Dan Kruchinin',
