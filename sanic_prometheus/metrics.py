@@ -49,7 +49,7 @@ async def periodic_memcollect_task(app, period_sec, loop):
 
 
 def before_request_handler(request):
-    _set_start_time_compat(time.perf_counter())
+    _set_start_time_compat(request, time.perf_counter())
 
 
 def after_request_handler(request, response, get_endpoint_fn):
