@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='sanic-prometheus-mon',
-    version='0.3.4',
+    version='0.3.5',
     description='Exposes Prometheus monitoring metrics of Sanic apps.',
     url='https://github.com/valerylisay/sanic-prometheus-mon',
     author='Dan Kruchinin',

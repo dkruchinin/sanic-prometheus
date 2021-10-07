@@ -13,7 +13,7 @@ Versions compatibility
 * ☑︎ use **0.1.6** if you have to use `promtheus-client` <= 0.4.2
 * ☑︎ use **0.1.8** with `prometheus-client` >= 0.5.0
 * ☑︎ use **0.2.0** with `prometheus-client` >= 0.7.1 and Sanic >= 18.12
-* ☑︎ use **0.3.4** with `prometheus-client` >= 0.11.0 and Sanic >= 18.12
+* ☑︎ use **0.3.5** with `prometheus-client` >= 0.11.0 and Sanic >= 18.12
 
 Exposed metrics
 -----------------
