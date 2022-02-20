@@ -1,5 +1,7 @@
 import asyncio
 import time
+import typing as tp
+
 import psutil
 from prometheus_client import Counter, Histogram, Gauge
 
@@ -53,15 +55,19 @@ def before_request_handler(request):
 
 
 def after_request_handler(request, response, get_endpoint_fn):
-    lat = time.perf_counter() - _get_start_time_compat(request)
-    endpoint = get_endpoint_fn(request)
-
     # Note, that some handlers can ignore response logic,
     # for example, websocket handler
     response_status = response.status if response else 200
-    request.app.metrics['RQS_LATENCY'].labels(
-        request.method, endpoint, response_status
-    ).observe(lat)
+    endpoint = get_endpoint_fn(request)
+
+    req_start_time = _get_start_time_compat(request)
+    if req_start_time:
+        latency = time.perf_counter() - req_start_time
+
+        request.app.metrics['RQS_LATENCY'].labels(
+            request.method, endpoint, response_status
+        ).observe(latency)
+
     request.app.metrics['RQS_COUNT'].labels(
         request.method, endpoint, response_status
     ).inc()
@@ -74,8 +80,9 @@ def _set_start_time_compat(request, value: float):
         request['__START_TIME__'] = value
 
 
-def _get_start_time_compat(request) -> float:
-    if hasattr(request, 'ctx'):
+def _get_start_time_compat(request) -> tp.Optional[float]:
+    if hasattr(request, 'ctx') and hasattr(request.ctx, '__START_TIME__'):
         return request.ctx.__START_TIME__
-    else:
+    elif '__START_TIME__' in request:
         return request['__START_TIME__']
+    return None
