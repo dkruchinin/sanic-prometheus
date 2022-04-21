@@ -83,6 +83,6 @@ def _set_start_time_compat(request, value: float):
 def _get_start_time_compat(request) -> tp.Optional[float]:
     if hasattr(request, 'ctx') and hasattr(request.ctx, '__START_TIME__'):
         return request.ctx.__START_TIME__
-    elif '__START_TIME__' in request:
+    elif hasattr(request, "__getitem__") and '__START_TIME__' in request:
         return request['__START_TIME__']
     return None
