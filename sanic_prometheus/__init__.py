@@ -105,7 +105,7 @@ def monitor(app, endpoint_type='url:1',
 
     @app.listener('before_server_start')
     def before_start(app, loop):
-        app.metrics = {}
+        app.ctx.metrics = {}
         metrics.init(
             app,
             latency_buckets, multiprocess_mode,
