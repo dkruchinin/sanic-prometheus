@@ -14,5 +14,5 @@ quantile-python==1.1
 requests==2.20.1
 sanic>=18.12
 six==1.11.0
-ujson==1.35
+ujson==5.4.0
 uvloop==0.11.3
