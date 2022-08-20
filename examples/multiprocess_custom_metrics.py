@@ -28,12 +28,12 @@ async def ping(request):
     start_time = time()
 
     await asyncio.sleep(1)
-    request.app.metrics[MetricsType.COUNT.name].labels(
+    request.app.ctx.metrics[MetricsType.COUNT.name].labels(
         label_1='ping',
         label_2='GET',
     ).inc()
 
-    request.app.metrics[MetricsType.TIME_LATENCY.name].labels(
+    request.app.ctx.metrics[MetricsType.TIME_LATENCY.name].labels(
         label_1='ping',
         label_2='GET',
     ).observe(round(float(time() - start_time), 3))
