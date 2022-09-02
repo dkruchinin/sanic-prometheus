@@ -58,6 +58,9 @@ def after_request_handler(request, response, get_endpoint_fn):
     # Note, that some handlers can ignore response logic,
     # for example, websocket handler
     response_status = response.status if response else 200
+    if not isinstance(response_status, int):
+        response_status = int(response_status)  # HTTPStatus -> int
+
     endpoint = get_endpoint_fn(request)
 
     req_start_time = _get_start_time_compat(request)
