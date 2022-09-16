@@ -1,22 +1,23 @@
 from setuptools import setup
 
-from scripts.release import get_version
 
 setup(
-    name='sanic-prometheus',
-    version=f'{get_version()}',
+    name='sanic-prometheus-mon',
+    version='0.3.8',
     description='Exposes Prometheus monitoring metrics of Sanic apps.',
-    url='http://github.com/dkruchinin/sanic-prometheus',
+    url='https://github.com/valerylisay/sanic-prometheus-mon',
     author='Dan Kruchinin',
     author_email='dan.kruchinin@gmail.com',
+    maintainer='Valeriy Lisay',
+    maintainer_email='valery@lisay.ru',
     license='MIT',
     packages=['sanic_prometheus'],
     zip_safe=False,
     platforms='any',
     install_requires=[
         'sanic>=18.12',
-        'prometheus-client~=0.7.1',
-        'psutil>=5.2.0'
+        'prometheus-client~=0.11.0',
+        'psutil~=5.8.0',
     ],
     classifiers=[
         'Intended Audience :: Developers',
@@ -30,7 +31,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
 
         'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7'
+        'Programming Language :: Python :: 3.7',
     ],
-    keywords='sanic prometheus monitoring'
+    keywords='python sanic prometheus monitoring metrics'
 )
