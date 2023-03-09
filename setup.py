@@ -16,7 +16,7 @@ setup(
     install_requires=[
         'sanic>=22.12.0',
         'prometheus-client~=0.16.0',
-        'psutil>=5.6.6'
+        'psutil>=5.6.6',
         'ujson>=5.4.0'
     ],
     classifiers=[
