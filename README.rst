@@ -2,6 +2,8 @@ Sanic prometheus metrics
 =========================
 |Build Status| |PyPI| |PyPI version|
 
+NOTE: This project appears to be not maintained despite huge popularity it has gained among observability circles. This fork aims to maintain minimal changes to keep this project relevant for the community.
+
 After googling for a while I didn't find a library that would enable some `prometheus <https://prometheus.io/>`_ metrics for `Sanic <https://github.com/channelcat/sanic>`_-based apps, so I had to write one. It makes adding monitoring to your Sanic app super easy, just add one line to your code (ok, two if you count import :) and point Prometheus to a newly appeared `/metrics` endpoint.
 
 Versions compatibility
