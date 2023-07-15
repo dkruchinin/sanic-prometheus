@@ -105,7 +105,7 @@ def monitor(app, endpoint_type='url:1',
 
     @app.listener('before_server_start')
     def before_start(app, loop):
-        app.metrics = {}
+        app.ctx.metrics = {}
         metrics.init(
             app,
             latency_buckets, multiprocess_mode,
@@ -131,7 +131,7 @@ def monitor(app, endpoint_type='url:1',
     elif memcollect_enabled:
         @app.listener('before_server_start')
         async def start_memcollect_task(app, loop):
-            app.memcollect_task = loop.create_task(
+            app.ctx.memcollect_task = loop.create_task(
                 metrics.periodic_memcollect_task(
                     app,
                     mmc_period_sec,
@@ -141,7 +141,7 @@ def monitor(app, endpoint_type='url:1',
 
         @app.listener('after_server_stop')
         async def stop_memcollect_task(app, loop):
-            app.memcollect_task.cancel()
+            app.ctx.memcollect_task.cancel()
 
     return MonitorSetup(app, metrics_path, multiprocess_on)
 
