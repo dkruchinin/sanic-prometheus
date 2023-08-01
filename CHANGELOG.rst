@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 0.2.2 (on Mar 8 2023)
+------------------------------
+* Fix compatibility issues with Sanic 22.12.0+
+* Updated ujson from 1.35 to 5.4.0
+* Updated prometheus_client to 0.16.0
+* Fix app.ctx issues
+* Fix event loop issues.
+
 Version 0.2.1 (on Oct 12 2020)
 ------------------------------
 * Changed the sanic request ctx for __START_TIME__ for the middleware is going to be deprecated, added the newer ctx way for adding custom objects. (by Arvind Mishra)

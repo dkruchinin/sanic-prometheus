@@ -1,4 +1,5 @@
 import os
+import asyncio 
 
 from prometheus_client import CONTENT_TYPE_LATEST, CollectorRegistry, \
     core, multiprocess, start_http_server
@@ -105,7 +106,7 @@ def monitor(app, endpoint_type='url:1',
 
     @app.listener('before_server_start')
     def before_start(app, loop):
-        app.metrics = {}
+        app.ctx.metrics = {}
         metrics.init(
             app,
             latency_buckets, multiprocess_mode,
@@ -130,18 +131,17 @@ def monitor(app, endpoint_type='url:1',
             multiprocess.mark_process_dead(os.getpid())
     elif memcollect_enabled:
         @app.listener('before_server_start')
-        async def start_memcollect_task(app, loop):
-            app.memcollect_task = loop.create_task(
+        async def start_memcollect_task(app):
+            app.ctx.memcollect_task = asyncio.create_task(
                 metrics.periodic_memcollect_task(
                     app,
-                    mmc_period_sec,
-                    loop
+                    mmc_period_sec
                 )
             )
 
         @app.listener('after_server_stop')
-        async def stop_memcollect_task(app, loop):
-            app.memcollect_task.cancel()
+        async def stop_memcollect_task(app):
+            app.ctx.memcollect_task.cancel()
 
     return MonitorSetup(app, metrics_path, multiprocess_on)
 
